@@ -1,6 +1,11 @@
-namespace pgr305_grp_10_backend.Models {
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+
+namespace pgr305_grp10_backend.Models {
     public class Game {
-        public int Id { get; set; }
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
         public string Title { get; set; }
         public string Category { get; set; }
         public string CoverImage { get; set; }
