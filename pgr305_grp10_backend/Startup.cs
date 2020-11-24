@@ -35,6 +35,17 @@ namespace pgr305_grp10_backend
                 Configuration.GetSection( nameof(Ps5GamesDatabaseSettings))
             );
 
+            services.AddCors(
+                options => {
+                    options.AddPolicy("AllowAll",
+                        builder => builder
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowAnyOrigin()
+                    );
+                }
+            );
+
             services.AddSingleton<IPs5GamesDatabaseSettings>(
                 sp => sp.GetRequiredService<IOptions<Ps5GamesDatabaseSettings>>().Value
             );
@@ -52,7 +63,10 @@ namespace pgr305_grp10_backend
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors("AllowAll");
             app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
 
             app.UseRouting();
 
