@@ -1,11 +1,11 @@
-import Axios from 'axios';
-import React, { useEffect } from 'react';
 import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import { IGameList } from '../modules/IGameList';
 
 const Home = () => {
+    const [games, setGames] = useState<IGameList | null>(null);
 
     useEffect(() => {
-        console.log("kjører")
         axios.get("https://localhost:5001/games")
         .then( response => {
             console.log(response)
