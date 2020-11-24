@@ -1,8 +1,8 @@
-export interface IGames {
+export interface IGame {
     id: string
     title: string
     category: string
     coverImage: string
     price: number
-    pegirating: number
+    pegiRating: number
 }
