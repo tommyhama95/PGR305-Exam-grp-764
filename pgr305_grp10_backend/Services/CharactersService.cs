@@ -31,5 +31,9 @@ namespace pgr305_grp10_backend.Services {
         public void Remove(string id) {
             _characters.DeleteOne( character => character.Id == id );
         }
+
+        public void Update( Character characterIn ) {
+            _characters.ReplaceOne( character => character.Id == characterIn.Id , characterIn );
+        }
     }
 }
