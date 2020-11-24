@@ -22,5 +22,14 @@ namespace pgr305_grp10_backend.Services {
         public Character Get(string id) {
             return _characters.Find( character => character.Id == id ).SingleOrDefault();
         }
+
+        public Character Create(Character character) {
+            _characters.InsertOne(character);
+            return character;
+        }
+
+        public void Remove(string id) {
+            _characters.DeleteOne( character => character.Id == id );
+        }
     }
 }
