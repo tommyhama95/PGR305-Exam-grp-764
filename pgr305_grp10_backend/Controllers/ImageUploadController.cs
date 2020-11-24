@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -22,11 +23,12 @@ namespace pgr305_grp10_backend.Controllers {
         [HttpPost]
         [Route("[action]")]
         public IActionResult UploadImage( IFormFile file ) {
-            string wwwrootPath = _hosting.ApplicationName;
-            string absolutePath = Path.Combine($"{wwwrootPath}/images/{Path.GetRandomFileName()}");
+            string wwwrootPath = _hosting.WebRootPath;
+            string imageFilename = $"{Guid.NewGuid()}.{file.ContentType.Substring(file.ContentType.LastIndexOf("/") + 1)}";
+            string absolutePath = Path.Combine($"{wwwrootPath}/images/{imageFilename}");
 
             // Check if the received file is an image, otherwise do nothing
-            if( FormFileExtensions.IsImage(file) ) {
+            if( !FormFileExtensions.IsImage(file) ) {
                     return BadRequest(); // The sent file is not an image
                 }
 
@@ -34,7 +36,7 @@ namespace pgr305_grp10_backend.Controllers {
                 file.CopyTo( fileStream );
             }
 
-            return Ok(); 
+            return Content(imageFilename); 
         }
     }
 }
