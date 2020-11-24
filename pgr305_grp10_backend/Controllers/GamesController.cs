@@ -18,5 +18,11 @@ namespace pgr305_grp10_backend.Controllers {
         public ActionResult<List<Game>> Get(){
             return _gamesService.Get();
         }
+
+        [HttpGet]
+        [Route("{id}")]
+        public Game Get(string id){
+            return _gamesService.Get(id);
+        }
     }
 }
