@@ -44,7 +44,7 @@ const StyledCard = styled(Card)`
     margin: 0;
     flex-direction: initial;
     border: none; 
-    border-radius: none;  
+    border-radius: 0;
 
     @media (max-width: 1400px) {
         min-height: calc(80vw + 1em)
