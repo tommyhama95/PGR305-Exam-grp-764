@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from 'react';
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Jumbotron, Row } from "react-bootstrap";
 import styled from "styled-components";
 import GameCard from "../components/GameCard";
 import { IGame } from "../models/IGame";
@@ -19,19 +19,17 @@ const Home = () => {
     }, []);
 
     let listElement: any = <div></div> 
-
-    console.log(gameList)
     if(gameList) {
         listElement = gameList.map( (game: IGame, i: number) => 
-                <StyledCol key={i} lg={4} >
+                <StyledCol key={i}>
                     <GameCard key={i} {...game}/> 
                 </StyledCol>
         )
     }
-    
 
     return (
         <StyledContainer fluid>
+            <Jumbotron></Jumbotron>
             <StyledRow>
                 {listElement}
             </StyledRow>
@@ -43,10 +41,13 @@ const Home = () => {
 const StyledContainer = styled(Container)`
     margin: 0;
     background-color: black;
+    padding: 0;
 `;
 
 const StyledRow = styled(Row)`
     margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(700px, 1fr));
 `;
 
 const StyledCol = styled(Col)`
