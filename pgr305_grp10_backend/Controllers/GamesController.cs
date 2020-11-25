@@ -25,7 +25,7 @@ namespace pgr305_grp10_backend.Controllers {
             return _gamesService.Get(id);
         }
 
-                [HttpPost]
+        [HttpPost]
         public ActionResult<Game> Create(Game game) {
             _gamesService.Create(game);
             return game;

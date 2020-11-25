@@ -17,13 +17,14 @@ namespace pgr305_grp10_backend.Controllers {
 
         [HttpGet]
         public string Get() {
-            return "Sup dude";
+            return "This isn't how you upload images you dum dum..";
         }
 
         [HttpPost]
         [Route("[action]")]
         public IActionResult UploadImage( IFormFile file ) {
             string wwwrootPath = _hosting.WebRootPath;
+            // Generate a new ID for the image and append it's filetype at the end
             string imageFilename = $"{Guid.NewGuid()}.{file.ContentType.Substring(file.ContentType.LastIndexOf("/") + 1)}";
             string absolutePath = Path.Combine($"{wwwrootPath}/images/{imageFilename}");
 

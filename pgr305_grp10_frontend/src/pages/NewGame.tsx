@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Button, Container, Form, InputGroup, Jumbotron } from 'react-bootstrap';
+import { Button, Container, Form, InputGroup, Jumbotron, Spinner } from 'react-bootstrap';
 import { IGame } from '../models/IGame';
+import { useHistory } from 'react-router';
 
 const NewGame = () => {
+
+    const history = useHistory();
 
     const [game, setGame] = useState<IGame>({
         id: "",
@@ -42,10 +45,11 @@ const NewGame = () => {
         setFile( e.target.files[0] )
     }
 
+    const [isUploadingImage, setIsUploadingImage] = useState<boolean>(false);
     const doImageUpload = () => {
+        setIsUploadingImage(true);
         let data = new FormData();
         data.append("file", file)
-        console.log(file);
 
         axios({
             method: "POST",
@@ -55,8 +59,34 @@ const NewGame = () => {
                 "Content-Type": "multipart/form-data" 
             }
         }).then(resp => {
+            // Wait for the image to be uploaded, and set the cover image to be the generated name
             handleInput("cover", resp.data)
-        });
+            setIsUploadingImage(false);
+        }).catch( error => {
+            console.error(error);
+        })
+        ;
+    }
+
+    const postGame = () => {
+        axios({
+            method: "POST",
+            url: "https://localhost:5001/games",
+            data: game,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(resp => {
+            console.info("Successful game upload");
+
+            // On posting of game, wait a second and then return back to admin homepage
+            setTimeout(() => {
+                history.replace("/admin/home");
+            }, 1000);
+
+        }).catch(error => {
+            console.error(error);
+        })
     }
 
     return (
@@ -68,7 +98,7 @@ const NewGame = () => {
             <Container>
                 <Form>
                     <Form.Group>
-                        <Form.Label>Game Title</Form.Label>
+                        <Form.Label>Game Title*</Form.Label>
                         <Form.Control 
                             type="text" 
                             placeholder="Enter game title" 
@@ -76,7 +106,7 @@ const NewGame = () => {
                             onChange={(e) => handleInput("title", e.target.value)}/>
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Categories</Form.Label>
+                        <Form.Label>Categories (At least one)*</Form.Label>
                         <Form.Control
                             type="text" 
                             placeholder="Input game categories separated by commas" 
@@ -87,14 +117,21 @@ const NewGame = () => {
                         </Form.Text>
                     </Form.Group>
                     <Form.Group>
+                        <Form.Label>Cover Image</Form.Label>
                         <Form.Control
                             type="text"
                             placeholder="No image has been uploaded..." 
                             value={game.coverImage}
                             readOnly />
                         <Form.File id="gameImageThumbnailFile" onChange={onFileChange}/>
+
                         <Button onClick={doImageUpload} disabled={!file}>
-                            Upload Image
+                            {
+                                isUploadingImage ?
+                                    <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/>
+                                :
+                                    <>Upload Image</>
+                            }
                         </Button>
                     </Form.Group>
                     <Form.Group>
@@ -123,6 +160,9 @@ const NewGame = () => {
                             <option>18</option>
                         </Form.Control>
                     </Form.Group>
+                    <Button variant="primary" onClick={postGame} disabled={!game.title || !game.category || !game.coverImage}>
+                        Create Game
+                    </Button>
                 </Form>
             </Container>
         </>
