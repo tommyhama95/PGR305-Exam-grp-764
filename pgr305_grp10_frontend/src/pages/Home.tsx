@@ -55,7 +55,7 @@ const StyledRow = styled(Row)`
     }
 `;
 
-const StyledCol = styled(Col)`
+export const StyledCol = styled(Col)`
     padding: 0;
 `;
 

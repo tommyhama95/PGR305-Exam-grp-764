@@ -22,17 +22,16 @@ const GameCard = ({id, title, price, coverImage, pegiRating}: IGame) => {
     }
     
     return (
-
             <StyledCard>
-                    <Card.Img src={coverImage}/>
-                <Card.ImgOverlay>
+                <StyledImg src={coverImage}/>
+                <StyledCardOverlay>
                     <StyledCardTitle>{title}</StyledCardTitle>
                     <StyledPrice>NOK {price},-</StyledPrice>
                     <Link style={{textDecoration: "none"}} to={`/games/${id}`}>
                         <StyledButton>Read more</StyledButton>
                     </Link>
                     <StyledPegiRating src={pegiUrl}/>
-                </Card.ImgOverlay>
+                </StyledCardOverlay>
             </StyledCard>
     );
 }
@@ -44,12 +43,26 @@ const StyledCard = styled(Card)`
     max-width: 100%;
     margin: 0;
     flex-direction: initial;
-    border: none;   
+    border: none; 
+    border-radius: none;  
 
     @media (max-width: 1400px) {
         min-height: calc(80vw + 1em)
     }
+`;
 
+const StyledImg = styled(Card.Img)`
+    ${StyledCard}:hover & {
+        transform: scale(1.04);
+        z-index: 1000;
+    }
+`;
+
+const StyledCardOverlay = styled(Card.ImgOverlay)`
+    ${StyledCard}:hover & {
+        transform: scale(1.04);
+        z-index: 1000;  
+    }
 `;
 
 const StyledCardTitle = styled(Card.Title)`
