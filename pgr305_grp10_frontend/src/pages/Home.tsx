@@ -42,12 +42,17 @@ const StyledContainer = styled(Container)`
     margin: 0;
     background-color: black;
     padding: 0;
+    overflow-x: hidden;
+    overflow-y: hidden;
 `;
 
 const StyledRow = styled(Row)`
     margin: 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(700px, 1fr));
+    @media (max-width: 700px) {
+        grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+    }
 `;
 
 const StyledCol = styled(Col)`
