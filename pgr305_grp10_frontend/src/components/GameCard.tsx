@@ -56,6 +56,7 @@ const StyledImg = styled(Card.Img)`
         transform: scale(1.04);
         z-index: 1000;
     }
+    border-radius: 0;
 `;
 
 const StyledCardOverlay = styled(Card.ImgOverlay)`
