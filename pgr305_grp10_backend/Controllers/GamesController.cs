@@ -51,7 +51,7 @@ namespace pgr305_grp10_backend.Controllers {
                 return NotFound();
             }
 
-            _gamesService.Update( game );
+            _gamesService.Update( gameIn ); // Set the new game in the mongo
             return NoContent();
         }
     }

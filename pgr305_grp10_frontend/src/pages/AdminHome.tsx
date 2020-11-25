@@ -19,7 +19,7 @@ const AdminHome = () => {
                     Playstation 5
                 </Navbar.Brand>
             </Navbar>
-            <Jumbotron style={{marginBottom: 0}}>
+            <Jumbotron style={{marginBottom: 0, borderRadius: 0}}>
                 <h1>Playstation 5 - Administration Panel</h1>
                 <p>You are seeing the administration panel for the games list for the promotional Playstation 5 page</p>
             </Jumbotron>

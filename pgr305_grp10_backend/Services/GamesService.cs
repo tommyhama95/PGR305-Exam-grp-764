@@ -33,7 +33,7 @@ namespace pgr305_grp10_backend.Services {
         }
         
         public void Update( Game gameIn ) {
-            _games.ReplaceOne( game => game.Id == gameIn.Id , gameIn );
+            _games.ReplaceOne( game => game.Id == gameIn.Id, gameIn );
         }
     }
 }

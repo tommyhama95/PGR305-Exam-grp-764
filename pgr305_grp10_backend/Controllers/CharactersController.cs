@@ -51,7 +51,7 @@ namespace pgr305_grp10_backend.Controllers {
                 return NotFound();
             }
 
-            _charactersService.Update( character );
+            _charactersService.Update( characterIn );
             return NoContent();
         }
         

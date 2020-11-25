@@ -10,6 +10,7 @@ import Landing from './pages/Landing';
 import NewGame from './pages/NewGame';
 import NewCharacter from './pages/NewCharacter';
 import AdminHome from './pages/AdminHome';
+import EditGame from './pages/EditGame';
 
 
 function App() {
@@ -19,8 +20,9 @@ function App() {
         <Route exact path="/" component={Landing}/>
         <Route exact path="/home" component={Home}/>
         <Route exact path="/admin/home" component={AdminHome} />
-        <Route exact path="/newGame" component={NewGame} />
-        <Route exact path="/newCharacter" component={NewCharacter} />
+        <Route exact path="/admin/editgame/:id" component={EditGame} />
+        <Route exact path="/admin/newGame" component={NewGame} />
+        <Route exact path="/admin/:gameid/newCharacter" component={NewCharacter} />
       </Switch>
     </BrowserRouter>
   );

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { Button, Container, Form, Jumbotron, Spinner } from 'react-bootstrap';
+import { Button, Container, Form, Jumbotron, Navbar, Spinner } from 'react-bootstrap';
 import { useHistory } from 'react-router';
 import { ICharacter } from '../models/ICharacter';
 
@@ -54,8 +54,7 @@ const NewCharacter = () => {
             setIsUploadingImage(false);
         }).catch( error => {
             console.error(error);
-        })
-        ;
+        });
     }
 
     const postCharacter = () => {
@@ -81,6 +80,19 @@ const NewCharacter = () => {
 
     return (
         <>
+            <Navbar bg="light">
+                <Navbar.Brand href="/admin/home">
+                    <img
+                        src="/playstation-logo.png"
+                        width="40"
+                        height="30"
+                        className="d-inline-block align-top"
+                        style={{marginRight: ".5em"}}
+                        alt="Playstation Logo"
+                    />
+                    Playstation 5
+                </Navbar.Brand>
+            </Navbar>
             <Jumbotron>
                 <h2>New [Gamename] character:</h2>
                 <p>Write in the details of the character below</p>
