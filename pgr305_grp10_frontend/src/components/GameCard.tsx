@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardColumns, Image } from 'react-bootstrap';
+import { Button, Card, CardColumns, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { IGame } from '../models/IGame';
@@ -11,23 +11,35 @@ const GameCard = ({id, title, price, coverImage, pegiRating}: IGame) => {
     } else {
         coverImage = `https://localhost:5001/images/${coverImage}`;
     }
+
+    let pegiUrl = "";
+    switch(pegiRating) {
+        case 7: pegiUrl = `https://localhost:5001/images/PEGI_7.png`; break;
+        case 12: pegiUrl = `https://localhost:5001/images/PEGI_12.png`; break;
+        case 16: pegiUrl = `https://localhost:5001/images/PEGI_16.png`; break;
+        case 18: pegiUrl = `https://localhost:5001/images/PEGI_18.png`; break;
+        default: pegiUrl = `https://localhost:5001/images/PEGI_3.png`; 
+    }
     
     return (
-        <Link style={{textDecoration: "none"}} to={`/games/${id}`}>
+
             <StyledCard>
-                <StyledCardBody>
-                    <StyledCardImg fluid loading="lazy" src={coverImage}/>
+                    <Card.Img src={coverImage}/>
+                <Card.ImgOverlay>
                     <StyledCardTitle>{title}</StyledCardTitle>
-                    <StyledPrice>{price},-</StyledPrice>
-                    <StyledCardText>{pegiRating}</StyledCardText>
-                </StyledCardBody>
+                    <StyledPrice>NOK {price},-</StyledPrice>
+                    <Link style={{textDecoration: "none"}} to={`/games/${id}`}>
+                        <StyledButton>Read more</StyledButton>
+                    </Link>
+                    <StyledPegiRating src={pegiUrl}/>
+                </Card.ImgOverlay>
             </StyledCard>
-        </Link>
     );
 }
 
+
 const StyledCard = styled(Card)`
-    min-height: 70vh;
+    min-height: 60vh;
     height: 100%;
     max-width: 100%;
     margin: 0;
@@ -38,22 +50,6 @@ const StyledCard = styled(Card)`
         min-height: calc(80vw + 1em)
     }
 
-    `;
-
-const StyledCardBody = styled(Card.Body)`
-    padding: 0em;
-    transition: 0.1s ease;
-    ${StyledCard}:hover & {
-        transform: scale(1.04);
-        z-index: 1000;
-    }
-`;  
-
-const StyledCardImg = styled(Image)`
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    position: absolute;
 `;
 
 const StyledCardTitle = styled(Card.Title)`
@@ -62,18 +58,43 @@ const StyledCardTitle = styled(Card.Title)`
     text-shadow: 3px 3px #212121;
     font-size: calc(2vw + 1rem);
     padding: 0.3em 0.5em;
+    margin-bottom: 0;
 `;
 
-const StyledCardText = styled(Card.Text)`
-    position: relative;
+const StyledPrice = styled(Card.Text)`
+    position: sticky;
+    padding-left: 1.5em;
+    color: #f5f5f5;
+    text-shadow: 2px 2px#212121;
+    bottom: 20px;
+    padding-right: 3%;
+    font-size: 30px;
+
+    @media (max-width: 500px) {
+        font-size: 15px;
+        padding-right: 0px;
+    }
 `;
 
-const StyledPrice = styled(StyledCardText)`
-    left: 95%;
-    top: 50%;
-    text-align: right;
+const StyledPegiRating = styled(Image)`
+    position: sticky;
+    top: 100%;
+    max-height: calc(1vw + 60px); 
+
+    @media (max-width: 500px) {
+        max-height: calc(1vw + 10vw); 
+    }
 `;
 
+const StyledButton = styled(Button)`
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+
+    @media (max-width: 500px) {
+        transform: scale(0.8)
+    }
+`;
 
 
 export default GameCard;
