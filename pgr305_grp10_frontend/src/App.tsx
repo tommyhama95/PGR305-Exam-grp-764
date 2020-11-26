@@ -11,6 +11,7 @@ import NewGame from './pages/NewGame';
 import NewCharacter from './pages/NewCharacter';
 import AdminHome from './pages/AdminHome';
 import EditGame from './pages/EditGame';
+import GameDetail from './pages/GameDetail';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
       <Switch style={{padding: 0}}>
         <Route exact path="/" component={Landing}/>
         <Route exact path="/home" component={Home}/>
+        <Route exact path="/games/:id" component={GameDetail}/>
         <Route exact path="/admin/home" component={AdminHome} />
         <Route exact path="/admin/editgame/:id" component={EditGame} />
         <Route exact path="/admin/newGame" component={NewGame} />
