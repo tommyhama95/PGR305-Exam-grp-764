@@ -17,7 +17,8 @@ const EditGame = () => {
         category: "",
         coverImage: "",
         price: 0,
-        pegiRating: 0
+        pegiRating: 0,
+        description: ""
     });
 
     // Set the currently selected game
@@ -47,6 +48,7 @@ const EditGame = () => {
                 }
                 gameCopy.pegiRating = parseInt(value); 
                 break;
+                case "description": gameCopy.description = value; break;
             default: return;
         }
         setGame(gameCopy);
@@ -193,6 +195,17 @@ const EditGame = () => {
                                 <option>16</option>
                                 <option>18</option>
                             </Form.Control>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Description</Form.Label>
+                            <InputGroup>
+                            <Form.Control as="textarea"
+                                type="text"
+                                placeholder="Description about the game"
+                                value={game.description}
+                                onChange={(e) => handleInput("description", e.target.value)}
+                            />
+                            </InputGroup>
                         </Form.Group>
                         <Button variant="primary" onClick={putGame} disabled={!game.title || !game.category || !game.coverImage}>
                             Update Game

@@ -12,6 +12,10 @@ const GameCard = ({id, title, price, coverImage, pegiRating}: IGame) => {
         coverImage = `https://localhost:5001/images/${coverImage}`;
     }
 
+    let priceText = `NOK ${price},-`;
+    if(price === 0) { priceText = "Free" }
+    if(price < 0) { priceText = "NA" }
+
     let pegiUrl = "";
     switch(pegiRating) {
         case 7: pegiUrl = `https://localhost:5001/images/PEGI_7.png`; break;
@@ -26,7 +30,7 @@ const GameCard = ({id, title, price, coverImage, pegiRating}: IGame) => {
                 <StyledImg src={coverImage}/>
                 <StyledCardOverlay>
                     <StyledCardTitle>{title}</StyledCardTitle>
-                    <StyledPrice>NOK {price},-</StyledPrice>
+                    <StyledPrice>{priceText}</StyledPrice>
                     <Link style={{textDecoration: "none"}} to={`/games/${id}`}>
                         <StyledButton>Read more</StyledButton>
                     </Link>

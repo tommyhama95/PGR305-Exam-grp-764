@@ -14,7 +14,8 @@ const NewGame = () => {
         category: "",
         coverImage: "",
         price: 0,
-        pegiRating: 0
+        pegiRating: 0,
+        description: ""
     });
 
     // Create a copy of the game, modify a value on it, and replace it

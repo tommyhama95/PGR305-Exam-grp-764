@@ -29,6 +29,10 @@ const AdminGameItem = (props : any) => {
         }
     }
 
+    let priceText = `NOK ${price},-`;
+    if(price === 0) { priceText = "Free" }
+    if(price < 0) { priceText = "NA" }
+
     return (
         <StyledCol>
             <StyledCard>
@@ -46,7 +50,7 @@ const AdminGameItem = (props : any) => {
                         {title}
                     </Card.Title>
                     <Card.Subtitle className="mb-2 text-muted">
-                        Price: NOK {price},- 
+                        Price: {priceText} 
                     </Card.Subtitle>
                     <Card.Text>
                         {

@@ -5,4 +5,5 @@ export interface IGame {
     coverImage: string
     price: number
     pegiRating: number
+    description: string
 }

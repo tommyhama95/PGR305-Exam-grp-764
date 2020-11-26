@@ -11,5 +11,6 @@ namespace pgr305_grp10_backend.Models {
         public string CoverImage { get; set; }
         public double Price { get; set; }
         public int PegiRating { get; set; }
+        public string Description { get; set; }
     }
 }

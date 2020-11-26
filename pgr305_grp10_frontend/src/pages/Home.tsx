@@ -30,7 +30,7 @@ const Home = () => {
     return (
         <StyledContainer fluid>
             <Navbar bg="light">
-                <Navbar.Brand href="/admin/home">
+                <Navbar.Brand href="/home">
                     <img
                         src="/playstation-logo.png"
                         width="40"
