@@ -4,6 +4,7 @@ import { Jumbotron, Navbar } from 'react-bootstrap'
 import { useLocation } from 'react-router';
 import styled from 'styled-components';
 import AdminCharacterList from '../components/AdminCharacterList';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { IGame } from '../models/IGame';
 
@@ -27,16 +28,15 @@ const AdminGame = () => {
     return (
         <BackgroundContainer>
             <Header url="/admin/home"/>
-            <HeroJumbotron style={ game && {backgroundImage: `url(https://localhost:5001/images/${game?.coverImage})`}}>
-                <div>
-
-                </div>
-                <div>
+            <HeroJumbotron>
+                <HeroBackground style={ game && {backgroundImage: `url(https://localhost:5001/images/${game?.coverImage})`}}/>
+                <HeroForeground>
                     <h1>{game?.title}</h1>
-                    <p>{game?.description}</p>
-                </div>
+                    <p style={{textOverflow: "ellipsis", overflow: "hidden", whiteSpace:"normal"}}>{game?.description}</p>
+                </HeroForeground>
             </HeroJumbotron>
             <AdminCharacterList gameId={gameId} />
+            <Footer/>
         </BackgroundContainer> 
     )
 }
@@ -53,10 +53,32 @@ const HeroJumbotron = styled(Jumbotron)`
     margin-bottom: 0;
     border-radius: 0;
     min-height: 500px;
+    position: relative;
+`
+
+const HeroBackground = styled.div`
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
     background-position: bottom;
     background-repeat: no-repeat;
     background-size: cover;
+    overflow: hidden;
+    text-overflow: ellipsis;
+`
+
+const HeroForeground = styled.div`
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    padding: 3em;
     color: #f5f5f5;
+    backdrop-filter: blur(3px) brightness(70%);
     text-shadow: 1px 1px 2px #1d1d1d;
 `
 
