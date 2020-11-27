@@ -25,6 +25,12 @@ namespace pgr305_grp10_backend.Controllers {
             return _charactersService.Get(id);
         }
 
+        [HttpGet]
+        [Route("forgame/{id}")]
+        public ActionResult<List<Character>> GetByGameId(string id){
+            return _charactersService.GetByGameId(id);
+        }
+
         [HttpPost]
         public ActionResult<Character> Create(Character character) {
             _charactersService.Create(character);

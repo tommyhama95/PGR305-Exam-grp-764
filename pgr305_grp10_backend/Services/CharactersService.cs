@@ -23,6 +23,10 @@ namespace pgr305_grp10_backend.Services {
             return _characters.Find( character => character.Id == id ).SingleOrDefault();
         }
 
+        public List<Character> GetByGameId(string id) {
+            return _characters.Find( character => character.GameId == id ).ToList();
+        }
+
         public Character Create(Character character) {
             _characters.InsertOne(character);
             return character;
