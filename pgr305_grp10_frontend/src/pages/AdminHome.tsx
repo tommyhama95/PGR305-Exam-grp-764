@@ -2,23 +2,12 @@ import React from 'react';
 import { Jumbotron, Navbar } from 'react-bootstrap';
 import styled from 'styled-components';
 import AdminGameList from '../components/AdminGameList';
+import Header from '../components/Header';
 
 const AdminHome = () => {
     return (
         <BackgroundContainer>
-            <Navbar bg="light">
-                <Navbar.Brand href="/admin/home">
-                    <img
-                        src="/playstation-logo.png"
-                        width="40"
-                        height="30"
-                        className="d-inline-block align-top"
-                        style={{marginRight: ".5em"}}
-                        alt="Playstation Logo"
-                    />
-                    Playstation 5
-                </Navbar.Brand>
-            </Navbar>
+            <Header url="/admin/home"/>
             <Jumbotron style={{marginBottom: 0, borderRadius: 0}}>
                 <h1>Playstation 5 - Administration Panel</h1>
                 <p>You are seeing the administration panel for the games list for the promotional Playstation 5 page</p>

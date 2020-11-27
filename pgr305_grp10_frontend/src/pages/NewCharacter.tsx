@@ -1,16 +1,21 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Button, Container, Form, Jumbotron, Navbar, Spinner } from 'react-bootstrap';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
+import Header from '../components/Header';
 import { ICharacter } from '../models/ICharacter';
 
 const NewCharacter = () => {
     const history = useHistory();
 
+    // To determine which game the character belongs to
+    const location = useLocation();
+    const [gameId] = useState<string>(location.pathname.split('/')[location.pathname.split('/').length - 2]);  // Game ID is second to last index of string
+
     const [character, setCharacter] = useState<ICharacter>({
         id: "",
         name: "",
-        gameId: "5fbe5e748b203fd5feaee371",
+        gameId: gameId,
         image: "",
         description: ""
     });
@@ -66,11 +71,11 @@ const NewCharacter = () => {
                 "Content-Type": "application/json"
             }
         }).then(resp => {
-            console.info("Successful game upload");
+            console.info(`Successfully created new character: ${character.name}`);
 
             // On posting of game, wait a second and then return back to admin game view
             setTimeout(() => {
-                history.replace("/admin/home");
+                history.replace(`/admin/game/${gameId}`);
             }, 1000);
 
         }).catch(error => {
@@ -80,19 +85,7 @@ const NewCharacter = () => {
 
     return (
         <>
-            <Navbar bg="light">
-                <Navbar.Brand href="/admin/home">
-                    <img
-                        src="/playstation-logo.png"
-                        width="40"
-                        height="30"
-                        className="d-inline-block align-top"
-                        style={{marginRight: ".5em"}}
-                        alt="Playstation Logo"
-                    />
-                    Playstation 5
-                </Navbar.Brand>
-            </Navbar>
+            <Header url="/admin/home"/>
             <Jumbotron>
                 <h2>New [Gamename] character:</h2>
                 <p>Write in the details of the character below</p>

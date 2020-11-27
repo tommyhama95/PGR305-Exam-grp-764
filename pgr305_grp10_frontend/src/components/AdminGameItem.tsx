@@ -2,6 +2,7 @@ import axios from 'axios'
 import React from 'react'
 import { Badge, Button, ButtonGroup, ButtonToolbar, Card, Col } from 'react-bootstrap'
 import { useHistory } from 'react-router'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { IGame } from '../models/IGame'
 
@@ -34,9 +35,9 @@ const AdminGameItem = (props : any) => {
     if(price < 0) { priceText = "NA" }
 
     return (
-        <StyledCol>
+        <StyledCol id={id} md="6" lg="4" xl="3">
             <StyledCard>
-                <Card.Img variant="top" src={`https://localhost:5001/images/${coverImage}`} style={{height: '14em', borderRadius: "5px 0 0 0"}}></Card.Img>
+                <AdjustedCardImg variant="top" src={`https://localhost:5001/images/${coverImage}`}/>
                 <ButtonToolbar className="justify-content-end">
                     <ButtonGroup>
                         <CardActionButton size="sm" variant="secondary" onClick={() => {history.push(`/admin/editgame/${id}`)}}>Edit Game</CardActionButton>
@@ -52,6 +53,9 @@ const AdminGameItem = (props : any) => {
                     <Card.Subtitle className="mb-2 text-muted">
                         Price: {priceText} 
                     </Card.Subtitle>
+                    <Card.Subtitle className="mb-2 text-muted">
+                        PEGI-Rating: {pegiRating === 0 ? "Everyone" : pegiRating} 
+                    </Card.Subtitle>
                     <Card.Text>
                         {
                             category.split(',').map((cat, i) => {
@@ -59,9 +63,11 @@ const AdminGameItem = (props : any) => {
                             })
                         }
                     </Card.Text>
-                    <Button variant="primary" block>
-                        View Game Details
-                    </Button>
+                    <Link style={{textDecoration: "none"}} to={`/admin/game/${id}`}>                    
+                        <Button variant="primary" block>
+                            VIEW DETAILS &gt;
+                        </Button>
+                    </Link>
                 </Card.Body>
             </StyledCard>
         </StyledCol>
@@ -73,14 +79,21 @@ const StyledCol = styled(Col)`
 `
 
 const StyledCard = styled(Card)`
-    border-style: none;
     background-color: #f5f5f5;
     min-height: 20em;
 `
 
+
+const AdjustedCardImg = styled(Card.Img)`
+    width: 100%;
+    height: 10em;
+    overflow: hidden;
+    object-fit: cover;
+    object-position: center top;
+`
+
 const CardActionButton = styled(Button)`
-    border-radius: 0 0 5px 5px;
-    margin-left: 0.3em;
+    border-radius: 0 0 0 0;
 `
 
 export default AdminGameItem

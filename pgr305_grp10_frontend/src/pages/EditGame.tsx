@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Jumbotron, Container, Form, Button, Spinner, InputGroup, Navbar } from 'react-bootstrap';
 import { useHistory, useLocation } from 'react-router';
 import styled from 'styled-components';
+import Header from '../components/Header';
 import { IGame } from '../models/IGame';
 
 const EditGame = () => {
@@ -108,19 +109,7 @@ const EditGame = () => {
 
     return (
         <>
-            <Navbar bg="light">
-                <Navbar.Brand href="/admin/home">
-                    <img
-                        src="/playstation-logo.png"
-                        width="40"
-                        height="30"
-                        className="d-inline-block align-top"
-                        style={{marginRight: ".5em"}}
-                        alt="Playstation Logo"
-                    />
-                    Playstation 5
-                </Navbar.Brand>
-            </Navbar>
+            <Header url="/admin/home"/>
             <Jumbotron>
                 <h2>Edit game</h2>
                 <p>Input the values of the game in the form below</p>

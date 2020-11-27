@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Button, Container, Form, InputGroup, Jumbotron, Navbar, Spinner } from 'react-bootstrap';
 import { IGame } from '../models/IGame';
 import { useHistory } from 'react-router';
+import Header from '../components/Header';
 
 const NewGame = () => {
 
@@ -92,19 +93,7 @@ const NewGame = () => {
 
     return (
         <>
-            <Navbar bg="light">
-                <Navbar.Brand href="/admin/home">
-                    <img
-                        src="/playstation-logo.png"
-                        width="40"
-                        height="30"
-                        className="d-inline-block align-top"
-                        style={{marginRight: ".5em"}}
-                        alt="Playstation Logo"
-                    />
-                    Playstation 5
-                </Navbar.Brand>
-            </Navbar>
+            <Header url="/admin/home"/> 
             <Jumbotron>
                 <h2>Make a new game</h2>
                 <p>Input the values of the game in the form below</p>

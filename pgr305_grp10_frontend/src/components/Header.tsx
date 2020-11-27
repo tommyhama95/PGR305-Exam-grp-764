@@ -20,7 +20,7 @@ const Header = (props : any) => {
             </Nav>
             <Nav>
                 <StyledNavbarBrand>
-                    <StyledButton href="/">Log out</StyledButton>
+                    <StyledButton href="/" variant="outline-danger">Log out</StyledButton>
                 </StyledNavbarBrand>
             </Nav>
         </Navbar>
