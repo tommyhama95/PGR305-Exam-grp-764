@@ -49,6 +49,7 @@ const StyledCard = styled(Card)`
     flex-direction: initial;
     border: none; 
     border-radius: 0;
+    transition: .1s ease !important;
 
     @media (max-width: 1400px) {
         min-height: calc(80vw + 1em)
@@ -56,6 +57,7 @@ const StyledCard = styled(Card)`
 `;
 
 const StyledImg = styled(Card.Img)`
+    transition: .1s ease !important;
     ${StyledCard}:hover & {
         transform: scale(1.04);
         z-index: 1000;
@@ -64,7 +66,10 @@ const StyledImg = styled(Card.Img)`
 `;
 
 const StyledCardOverlay = styled(Card.ImgOverlay)`
+    backdrop-filter: blur(5px);
+    transition: .1s ease !important;
     ${StyledCard}:hover & {
+        backdrop-filter: blur(0);
         transform: scale(1.04);
         z-index: 1000;  
     }
