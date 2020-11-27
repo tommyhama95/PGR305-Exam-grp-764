@@ -7,12 +7,18 @@ import Header from '../components/Header';
 import { ICharacter } from '../models/ICharacter';
 import { IGame } from '../models/IGame';
 
+interface ISlideInfo {
+    name: string
+    desc: string
+}
+
 const GameDetail = () => {
     const location = useLocation();
 
     const [gameId] = useState<string>(location.pathname.substring(location.pathname.lastIndexOf('/') + 1));
     const [game, setGame] = useState<IGame>();
     const [characters, setCharacters] = useState<ICharacter[] | undefined>();
+    const [slideIndex, setSlideIndex] = useState<ISlideInfo>();
 
     useEffect(() => {
         axios.get(`https://localhost:5001/games/${gameId}`)
@@ -25,8 +31,9 @@ const GameDetail = () => {
     }, [gameId]);
 
 
-    const handleOnSlid = (e: any) => {
-        console.log(e);
+    const handleOnSlid = (i: number) => {
+        const slideInfo: ISlideInfo = {name: characters![i].name, desc: characters![i].description}
+        setSlideIndex(slideInfo)
     }
 
     return (
@@ -51,7 +58,7 @@ const GameDetail = () => {
                 characters && 
                     <>
                         <h2>{characters.length > 1 ? "Characters": "Character"}</h2>
-                        <StyledCarousel onSlid={(e) => handleOnSlid(e)}>
+                        <StyledCarousel onSlid={(i: number) => handleOnSlid(i)}>
                             {
                                 characters?.map((character: ICharacter, i: number) => 
                                     <StyledCarouselItem key={i}>
@@ -62,12 +69,12 @@ const GameDetail = () => {
                                             />
                                         <Carousel.Caption style={{paddingBottom: "0"}}>
                                             <StyledH3>{character.name}</StyledH3>
-                                            <StyledP>{character.description}</StyledP>
                                         </Carousel.Caption>
                                     </StyledCarouselItem>    
                                 )
                             }
                         </StyledCarousel>
+                        <StyledP>{slideIndex ? slideIndex?.desc : characters[0].description}</StyledP>
                     </>
                 }
             </StyledJumbotron>
@@ -108,10 +115,7 @@ const StyledCarousel = styled(Carousel)`
 `;
 
 const StyledCarouselItem = styled(Carousel.Item)`
-    width: 70vw;
-    @media (max-width: 955px) {
-        width: 90vw;
-    }
+    width: 100vw;
 `;
 
 const StyledImage = styled(Image)`
@@ -129,6 +133,7 @@ const StyledH3 = styled.h3`
 `;
 
 const StyledP = styled.p`
+    color: #f5f5f5;
     text-shadow: 2px 2px #222;
     font-size: calc(1rem - 10%);
 `;
