@@ -1,8 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from 'react';
-import { Col, Container, Jumbotron, Row, Image, Card, Navbar} from "react-bootstrap";
+import { Col, Container, Jumbotron, Row, Image, Card, Nav, Button} from "react-bootstrap";
 import styled from "styled-components";
 import GameCard from "../components/GameCard";
+import Header from "../components/Header";
 import { IGame } from "../models/IGame";
 
 const Home = () => {
@@ -29,19 +30,7 @@ const Home = () => {
 
     return (
         <StyledContainer fluid>
-            <Navbar bg="light">
-                <Navbar.Brand href="/home">
-                    <img
-                        src="/playstation-logo.png"
-                        width="40"
-                        height="30"
-                        className="d-inline-block align-top"
-                        style={{marginRight: ".5em"}}
-                        alt="Playstation Logo"
-                    />
-                    Playstation 5
-                </Navbar.Brand>
-            </Navbar>
+            <Header url="/home"/>
             <StyledJumbotron>
                 <StyledCard>
                     <StyledCardImg  src={"https://localhost:5001/images/Ps5Console.png"}/>
