@@ -1,8 +1,9 @@
 import React from 'react';
-import { Jumbotron, Navbar } from 'react-bootstrap';
+import { Jumbotron } from 'react-bootstrap';
 import styled from 'styled-components';
 import AdminGameList from '../components/AdminGameList';
 import Header from '../components/Header';
+import { AdminGameProvider } from '../contexts/AdminGameContext';
 
 const AdminHome = () => {
     return (
@@ -12,7 +13,9 @@ const AdminHome = () => {
                 <h1>Playstation 5 - Administration Panel</h1>
                 <p>You are seeing the administration panel for the games list for the promotional Playstation 5 page</p>
             </Jumbotron>
-            <AdminGameList/>
+            <AdminGameProvider>
+                <AdminGameList/>
+            </AdminGameProvider>
         </BackgroundContainer>
     )
 }

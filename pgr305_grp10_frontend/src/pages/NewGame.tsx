@@ -73,7 +73,7 @@ const NewGame = () => {
     const postGame = () => {
         axios({
             method: "POST",
-            url: "https://localhost:5001/games",
+            url: "https://localhost:5001/admingames",
             data: game,
             headers: {
                 "Content-Type": "application/json"

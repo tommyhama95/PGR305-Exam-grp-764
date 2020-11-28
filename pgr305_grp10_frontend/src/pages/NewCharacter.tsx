@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { Button, Container, Form, Jumbotron, Navbar, Spinner } from 'react-bootstrap';
+import { Button, Container, Form, Jumbotron, Spinner } from 'react-bootstrap';
 import { useHistory, useLocation } from 'react-router';
 import Header from '../components/Header';
 import { ICharacter } from '../models/ICharacter';
@@ -65,7 +65,7 @@ const NewCharacter = () => {
     const postCharacter = () => {
         axios({
             method: "POST",
-            url: "https://localhost:5001/characters",
+            url: "https://localhost:5001/admincharacters",
             data: character,
             headers: {
                 "Content-Type": "application/json"
@@ -101,7 +101,7 @@ const NewCharacter = () => {
                             onChange={(e) => handleInput("name", e.target.value)}/>
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Categories (At least one)*</Form.Label>
+                        <Form.Label>Character Description*</Form.Label>
                         <Form.Control
                             as="textarea"
                             placeholder="Enter the character's description." 

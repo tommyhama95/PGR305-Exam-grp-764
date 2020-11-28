@@ -1,6 +1,6 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { Jumbotron, Container, Form, Button, Spinner, InputGroup, Navbar } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Button, Container, Form, InputGroup, Jumbotron, Spinner } from 'react-bootstrap';
 import { useHistory, useLocation } from 'react-router';
 import styled from 'styled-components';
 import Header from '../components/Header';
@@ -24,7 +24,7 @@ const EditGame = () => {
 
     // Set the currently selected game
     useEffect(() => {
-        axios.get(`https://localhost:5001/games/${gameId}`)
+        axios.get(`https://localhost:5001/admingames/${gameId}`)
         .then( response => {
             setGame(response.data)
         })
@@ -88,7 +88,7 @@ const EditGame = () => {
     const putGame = () => {
         axios({
             method: "PUT",
-            url: "https://localhost:5001/games",
+            url: "https://localhost:5001/admingames",
             data: game,
             headers: {
                 "Content-Type": "application/json"

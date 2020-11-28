@@ -24,35 +24,5 @@ namespace pgr305_grp10_backend.Controllers {
         public Game Get(string id){
             return _gamesService.Get(id);
         }
-
-        [HttpPost]
-        public ActionResult<Game> Create(Game game) {
-            _gamesService.Create(game);
-            return game;
-        }
-
-        [HttpDelete("{id:length(24)}")]
-        public IActionResult Delete(string id) {
-            var game = _gamesService.Get(id);
-
-            if ( game == null ) {
-                return NotFound();
-            }
-
-            _gamesService.Remove( game.Id );
-            return NoContent();
-        }
-
-        [HttpPut]
-        public IActionResult Put(Game gameIn) {
-            var game = _gamesService.Get(gameIn.Id);
-
-            if( game == null ) {
-                return NotFound();
-            }
-
-            _gamesService.Update( gameIn ); // Set the new game in the mongo
-            return NoContent();
-        }
     }
 }

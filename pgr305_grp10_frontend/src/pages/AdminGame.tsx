@@ -1,6 +1,6 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { Jumbotron, Navbar } from 'react-bootstrap'
+import React, { useEffect, useState } from 'react';
+import { Jumbotron } from 'react-bootstrap';
 import { useLocation } from 'react-router';
 import styled from 'styled-components';
 import AdminCharacterList from '../components/AdminCharacterList';
@@ -16,7 +16,7 @@ const AdminGame = () => {
     const [game, setGame] = useState<IGame | undefined>();
 
     useEffect(() => {
-        axios.get(`https://localhost:5001/games/${gameId}`)
+        axios.get(`https://localhost:5001/admingames/${gameId}`)
         .then( response => {
             setGame(response.data)
         })

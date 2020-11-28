@@ -14,7 +14,7 @@ const AdminCharacterList = (props: any) => {
     const [didChangeList, setDidChangeList] = useState<boolean>(false) //Handles automatic updating whenever a character is deleted
 
     useEffect(() => {
-        axios.get(`https://localhost:5001/characters/forgame/${gameId}`)
+        axios.get(`https://localhost:5001/admincharacters/forgame/${gameId}`)
         .then( response => {
             setCharacterList(response.data)
         })

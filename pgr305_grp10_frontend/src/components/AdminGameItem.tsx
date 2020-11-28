@@ -21,7 +21,7 @@ const AdminGameItem = (props : any) => {
         if (confirmResult) {
             axios({
                 method: "DELETE",
-                url: `https://localhost:5001/games/${id}`,
+                url: `https://localhost:5001/admingames/${id}`,
             }).then(resp => {
                 props.initiateListChange();
             }).catch( error => {
@@ -40,10 +40,10 @@ const AdminGameItem = (props : any) => {
                 <AdjustedCardImg variant="top" src={`https://localhost:5001/images/${coverImage}`}/>
                 <ButtonToolbar className="justify-content-end">
                     <ButtonGroup>
-                        <CardActionButton size="sm" variant="secondary" onClick={() => {history.push(`/admin/editgame/${id}`)}}>Edit Game</CardActionButton>
+                        <CardActionButton size="sm" variant="secondary" onClick={() => {history.push(`/admin/edit/${id}`)}}>Edit</CardActionButton>
                     </ButtonGroup>
                     <ButtonGroup>
-                        <CardActionButton size="sm" variant="danger" onClick={tryDeleteGame}>Delete Game</CardActionButton>
+                        <CardActionButton size="sm" variant="danger" onClick={tryDeleteGame}>Delete</CardActionButton>
                     </ButtonGroup>
                 </ButtonToolbar>
                 <Card.Body>

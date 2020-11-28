@@ -13,6 +13,7 @@ import AdminHome from './pages/AdminHome';
 import EditGame from './pages/EditGame';
 import GameDetail from './pages/GameDetail';
 import AdminGame from './pages/AdminGame';
+import EditCharacter from './pages/EditCharacter';
 
 
 function App() {
@@ -23,10 +24,11 @@ function App() {
         <Route exact path="/home" component={Home}/>
         <Route exact path="/games/:id" component={GameDetail}/>
         <Route exact path="/admin/home" component={AdminHome} />
-        <Route exact path="/admin/editgame/:id" component={EditGame} />
+        <Route exact path="/admin/edit/:id" component={EditGame} />
         <Route exact path="/admin/newgame" component={NewGame} />
         <Route exact path="/admin/game/:id" component={AdminGame} />
         <Route exact path="/admin/game/:id/newCharacter" component={NewCharacter} />
+        <Route exact path="/admin/game/:gameid/edit/:charid" component={EditCharacter} />
       </Switch>
     </BrowserRouter>
   );
