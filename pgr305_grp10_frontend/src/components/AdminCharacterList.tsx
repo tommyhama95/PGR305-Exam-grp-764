@@ -1,8 +1,9 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { AdminCharacterContext, IAdminCharacterContext } from '../contexts/AdminCharacterContext';
 import { ICharacter } from '../models/ICharacter';
 import AdminCharacterItem from './AdminCharacterItem';
 
@@ -10,22 +11,11 @@ const AdminCharacterList = (props: any) => {
 
     const gameId = props.gameId;
 
-    const [characterList, setCharacterList] = useState<ICharacter[] | undefined>(); //Handles the list of characters
-    const [didChangeList, setDidChangeList] = useState<boolean>(false) //Handles automatic updating whenever a character is deleted
+    const {gameCharacters, getCharactersFromGame}  = useContext<IAdminCharacterContext>(AdminCharacterContext);
 
     useEffect(() => {
-        axios.get(`https://localhost:5001/admincharacters/forgame/${gameId}`)
-        .then( response => {
-            setCharacterList(response.data)
-        })
-        .catch( error => {
-            console.log(error)
-        })
-    }, [didChangeList, gameId]);
-
-    const initiateListChange = () => {
-        setDidChangeList(true);
-    }
+        getCharactersFromGame(gameId);
+    },[/* Dependency array left empty to avoid infinite request loops */]);
 
     return (
         <Container style={{backgroundColor: "#f5f5f5", paddingTop: "1em"}}>
@@ -45,8 +35,8 @@ const AdminCharacterList = (props: any) => {
             </ListHeader>
             <Row style={{margin: 0}} className="justify-content-md-center">
                 {
-                    characterList?.map(character => {
-                        return <AdminCharacterItem character={character} initiateListChange={initiateListChange} key={character.id}/> 
+                    gameCharacters?.map(character => {
+                        return <AdminCharacterItem character={character} key={character.id}/> 
                     })
                 }
             </Row>

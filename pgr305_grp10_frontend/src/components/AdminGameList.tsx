@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { AdminGameContext, IAdminGameContext } from '../contexts/AdminGameContext';
@@ -7,30 +7,7 @@ import AdminGameItem from './AdminGameItem';
 
 const AdminGameList = () => {
 
-    const { games, setDidChangeList } = useContext<IAdminGameContext>(AdminGameContext)
-    
-    //const [ games, setGames ] : IGame[] = adminGame.games;
-    //const [ setDidChangeList ] : any = adminGame.listUpdate;
-
-    /*
-    const [gameList, setGameList] = useState<IGame[] | undefined>();
-    const [didChangeList, setDidChangeList] = useState<boolean>(false)
-
-    
-    useEffect(() => {
-        axios.get("https://localhost:5001/admingames")
-        .then( response => {
-            setGameList(response.data)
-            setDidChangeList(false)
-        })
-        .catch( error => {
-            console.log(error)
-        })
-    }, [didChangeList]);*/
-
-    const initiateListChange = () => {
-        setDidChangeList(true);
-    }
+    const { games } = useContext<IAdminGameContext>(AdminGameContext)
 
     return (
         <>
@@ -48,17 +25,33 @@ const AdminGameList = () => {
                     </Col>
                 </StyledRow>
                 <br />
-                <Row style={{margin: 0}} className="justify-content-md-center">
-                    {
-                        games?.map(game => {
-                            return <AdminGameItem game={game} initiateListChange={initiateListChange} key={game.id}/>
-                        })
-                    }
-                </Row>
+                {
+                    !games ? 
+                    <LoaderRow className="justify-content-md-center">
+                        <Spinner animation="border" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </Spinner>
+                    </LoaderRow>
+                    :
+                    <Row style={{margin: 0}} className="justify-content-md-center">
+                        {
+                            games.map(game => {
+                                return <AdminGameItem game={game} key={game.id}/>
+                            })
+                        }
+                    </Row>
+                }
             </Container>
         </>
     )
 }
+
+const LoaderRow = styled(Row)`
+    margin: 0;
+    padding: 3em 0;
+    height: 100%;
+    align-items: center;
+`
 
 const StyledRow = styled(Row)`
     margin: 0;

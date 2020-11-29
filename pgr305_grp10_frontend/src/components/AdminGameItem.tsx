@@ -1,9 +1,10 @@
 import axios from 'axios'
-import React from 'react'
+import React, { useContext } from 'react'
 import { Badge, Button, ButtonGroup, ButtonToolbar, Card, Col } from 'react-bootstrap'
 import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { AdminGameContext, IAdminGameContext } from '../contexts/AdminGameContext'
 import { IGame } from '../models/IGame'
 
 
@@ -13,20 +14,20 @@ import { IGame } from '../models/IGame'
 const AdminGameItem = (props : any) => {
 
     const history = useHistory();
+    const { deleteGameById } = useContext<IAdminGameContext>(AdminGameContext);
 
     const {id, title, category, coverImage, price, pegiRating} : IGame = props.game
 
     const tryDeleteGame = () => {
         let confirmResult : boolean = window.confirm(`Are you sure you want to delete ${title} from the database?`);
         if (confirmResult) {
-            axios({
-                method: "DELETE",
-                url: `https://localhost:5001/admingames/${id}`,
-            }).then(resp => {
-                props.initiateListChange();
-            }).catch( error => {
-                console.error(error);
-            });
+            try {
+                deleteGameById(id);
+            } catch (error) {
+                console.error(error)
+            }
+        } else {
+            console.info("Cancelled game deletion.")
         }
     }
 

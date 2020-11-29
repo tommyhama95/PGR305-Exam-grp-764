@@ -4,7 +4,7 @@ import { IGame } from '../models/IGame';
 
 export interface IAdminGameContext {
     games: IGame[] | undefined,
-    setDidChangeList(state: boolean): void
+    deleteGameById(gameId: string): void
 }
 
 export const AdminGameContext = createContext<IAdminGameContext>({} as IAdminGameContext);
@@ -24,8 +24,19 @@ export const AdminGameProvider = ( props : any ) => {
         })
     }, [didChangeList]);
 
+    const deleteGameById = (gameId: string) => {
+        axios({
+            method: "DELETE",
+            url: `https://localhost:5001/admingames/${gameId}`,
+        }).then(resp => {
+            setDidChangeList(true);
+        }).catch( error => {
+            console.error(error);
+        });
+    }
+
     return (
-    <AdminGameContext.Provider value={{games, setDidChangeList}}>
+    <AdminGameContext.Provider value={{games, deleteGameById}}>
         { props.children }
     </AdminGameContext.Provider>
     )
