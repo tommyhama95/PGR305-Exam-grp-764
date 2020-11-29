@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { IGame } from '../models/IGame';
 
-const GameCard = ({id, title, price, coverImage, pegiRating}: IGame) => {
+const GameCardItem = ({id, title, price, coverImage, pegiRating}: IGame) => {
     
     if(coverImage.trim().length === 0) {
         coverImage = "https://media.istockphoto.com/vectors/no-image-vector-symbol-missing-available-icon-no-gallery-for-this-vector-id1128826884?k=6&m=1128826884&s=170667a&w=0&h=F6kUwTcsLXUojmGFxN2wApEKgjx63zcIshCSOmnfEFs=";
@@ -60,18 +60,24 @@ const StyledImg = styled(Card.Img)`
     transition: .1s ease !important;
     ${StyledCard}:hover & {
         transform: scale(1.04);
-        z-index: 1000;
+        z-index: 100;
     }
     border-radius: 0;
 `;
 
 const StyledCardOverlay = styled(Card.ImgOverlay)`
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(3px);
     transition: .1s ease !important;
     ${StyledCard}:hover & {
         backdrop-filter: blur(0);
         transform: scale(1.04);
-        z-index: 1000;  
+        z-index: 100;  
+    }
+    @media (max-width: 1400px) {
+        backdrop-filter: none;
+        :hover{
+            transform: none;
+        }
     }
 `;
 
@@ -119,5 +125,4 @@ const StyledButton = styled(Button)`
     }
 `;
 
-
-export default GameCard;
+export default GameCardItem;
