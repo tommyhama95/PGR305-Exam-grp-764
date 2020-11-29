@@ -1,35 +1,15 @@
-import axios from "axios";
-import React, { useEffect, useState } from 'react';
-import { Col, Container, Jumbotron, Row, Image, Card, Nav, Button} from "react-bootstrap";
+import React from 'react';
+import { Button, Card, Container, Jumbotron, Row } from "react-bootstrap";
 import styled from "styled-components";
-import GameCard from "../components/GameCard";
+import GameCardList from "../components/GameCardList";
 import Header from "../components/Header";
-import { IGame } from "../models/IGame";
+import { UserGameProvider } from "../contexts/UserGameContext";
 
 const Home = () => {
-    const [gameList, setGameList] = useState<IGame[] | undefined>();
-
-    useEffect(() => {
-        axios.get("https://localhost:5001/games")
-        .then( response => {
-            setGameList(response.data)
-        })
-        .catch( error => {
-            console.log(error)
-        })
-    }, []);
-
-    let listElement: any = <div></div> 
-    if(gameList) {
-        listElement = gameList.map( (game: IGame, i: number) => 
-                <StyledCol key={i}>
-                    <GameCard key={i} {...game}/> 
-                </StyledCol>
-        )
-    }
 
     return (
         <StyledContainer fluid>
+            <StyledButton variant="dark" onClick={() => window.scrollTo(0,0)}>Top</StyledButton>
             <Header url="/home"/>
             <StyledJumbotron>
                 <StyledCard>
@@ -45,12 +25,25 @@ const Home = () => {
                 </StyledCard>
             </StyledJumbotron>
             <StyledRow>
-                {listElement}
+                <UserGameProvider>
+                    <GameCardList />
+                </UserGameProvider>
             </StyledRow>
         </StyledContainer>
 
     );
 }
+
+const StyledButton = styled(Button)`
+    position: fixed;
+    bottom: 8vh;
+    right: 0;
+    z-index: 101;
+    margin: 0 2rem 2rem 0;
+    :hover {
+        transform: scale(1.2)
+    }
+`;
 
 const StyledJumbotron = styled(Jumbotron)`
     background-color: #2e5fff;
@@ -119,10 +112,6 @@ const StyledRow = styled(Row)`
     @media (max-width: 700px) {
         grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
     }
-`;
-
-const StyledCol = styled(Col)`
-    padding: 0;
 `;
 
 export default Home;
