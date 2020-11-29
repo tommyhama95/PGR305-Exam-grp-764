@@ -1,12 +1,11 @@
 import React from 'react';
-import { Button, Card, Container, Jumbotron, Row } from "react-bootstrap";
+import { Button, Card, Container, Jumbotron } from "react-bootstrap";
 import styled from "styled-components";
 import GameCardList from "../components/GameCardList";
 import Header from "../components/Header";
 import { UserGameProvider } from "../contexts/UserGameContext";
 
 const Home = () => {
-
     return (
         <StyledContainer fluid>
             <StyledButton variant="dark" onClick={() => window.scrollTo(0,0)}>Top</StyledButton>
@@ -24,11 +23,9 @@ const Home = () => {
                     </Card.ImgOverlay>
                 </StyledCard>
             </StyledJumbotron>
-            <StyledRow>
-                <UserGameProvider>
-                    <GameCardList />
-                </UserGameProvider>
-            </StyledRow>
+            <UserGameProvider>
+                <GameCardList />
+            </UserGameProvider>
         </StyledContainer>
 
     );
@@ -105,13 +102,5 @@ const StyledContainer = styled(Container)`
     overflow-y: hidden;
 `;
 
-const StyledRow = styled(Row)`
-    margin: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(700px, 1fr));
-    @media (max-width: 700px) {
-        grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
-    }
-`;
 
 export default Home;

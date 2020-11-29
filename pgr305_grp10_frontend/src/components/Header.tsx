@@ -1,8 +1,10 @@
-import React from 'react';
-import { Button, Nav, Navbar } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Button, Dropdown, DropdownButton, Nav, Navbar } from 'react-bootstrap';
 import styled from 'styled-components';
 
 const Header = (props : any) => {
+    const [pegiSelected, setPegiSelected] = useState<string | null>("All");
+
     return (
         <Navbar bg="light" expand="lg">
             <Nav className="mr-auto">
