@@ -1,27 +1,24 @@
-import axios from 'axios';
-import React from 'react'
-import { Button, ButtonGroup, ButtonToolbar, Card, Col } from 'react-bootstrap'
+import React, { useContext } from 'react';
+import { Button, ButtonGroup, ButtonToolbar, Card, Col } from 'react-bootstrap';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
+import { AdminCharacterContext, IAdminCharacterContext } from '../contexts/AdminCharacterContext';
 import { ICharacter } from '../models/ICharacter';
 
 const AdminCharacterItem = (props: any) => {
 
     const history = useHistory();
-
+    const { deleteCharacterById } = useContext<IAdminCharacterContext>(AdminCharacterContext);
     const {id, name, gameId, image, description} : ICharacter = props.character;
 
-    const tryDeleteCharacter = () => {
+    const confirmDeleteCharacter = () => {
         let confirmResult : boolean = window.confirm(`Are you sure you want to delete ${name} from the database?`);
         if (confirmResult) {
-            axios({
-                method: "DELETE",
-                url: `https://localhost:5001/characters/${id}`,
-            }).then(resp => {
-                props.initiateListChange();
-            }).catch( error => {
+            try {
+                deleteCharacterById(id, gameId);
+            } catch (error) {
                 console.error(error);
-            });
+            }
         }
     }
 
@@ -36,7 +33,7 @@ const AdminCharacterItem = (props: any) => {
                         <CardActionButton size="sm" variant="secondary" onClick={() => {history.push(`/admin/game/${gameId}/edit/${id}`)}}>Edit</CardActionButton>
                     </ButtonGroup>
                     <ButtonGroup>
-                        <CardActionButton size="sm" variant="danger" onClick={tryDeleteCharacter}>Delete</CardActionButton>
+                        <CardActionButton size="sm" variant="danger" onClick={confirmDeleteCharacter}>Delete</CardActionButton>
                     </ButtonGroup>
                 </ButtonToolbar>
                 <Card.Body>

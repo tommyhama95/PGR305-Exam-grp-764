@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { AdminGameContext, IAdminGameContext } from '../contexts/AdminGameContext';
@@ -7,6 +7,7 @@ import AdminGameItem from './AdminGameItem';
 
 const AdminGameList = () => {
 
+    //setDidChangeList handles the list update on game delete
     const { games, setDidChangeList } = useContext<IAdminGameContext>(AdminGameContext)
     
     //const [ games, setGames ] : IGame[] = adminGame.games;
@@ -48,17 +49,33 @@ const AdminGameList = () => {
                     </Col>
                 </StyledRow>
                 <br />
-                <Row style={{margin: 0}} className="justify-content-md-center">
-                    {
-                        games?.map(game => {
-                            return <AdminGameItem game={game} initiateListChange={initiateListChange} key={game.id}/>
-                        })
-                    }
-                </Row>
+                {
+                    !games ? 
+                    <LoaderRow className="justify-content-md-center">
+                        <Spinner animation="border" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </Spinner>
+                    </LoaderRow>
+                    :
+                    <Row style={{margin: 0}} className="justify-content-md-center">
+                        {
+                            games.map(game => {
+                                return <AdminGameItem game={game} initiateListChange={initiateListChange} key={game.id}/>
+                            })
+                        }
+                    </Row>
+                }
             </Container>
         </>
     )
 }
+
+const LoaderRow = styled(Row)`
+    margin: 0;
+    padding: 3em 0;
+    height: 100%;
+    align-items: center;
+`
 
 const StyledRow = styled(Row)`
     margin: 0;

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
 import axios from 'axios';
-import { Button, Container, Form, InputGroup, Jumbotron, Navbar, Spinner } from 'react-bootstrap';
-import { IGame } from '../models/IGame';
+import React, { useState } from 'react';
+import { Button, Container, Form, InputGroup, Jumbotron, Spinner } from 'react-bootstrap';
 import { useHistory } from 'react-router';
 import Header from '../components/Header';
+import { IGame } from '../models/IGame';
 
 const NewGame = () => {
 

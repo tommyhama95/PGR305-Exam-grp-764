@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import AdminCharacterList from '../components/AdminCharacterList';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import { AdminCharacterProvider } from '../contexts/AdminCharacterContext';
 import { IGame } from '../models/IGame';
 
 const AdminGame = () => {
@@ -23,7 +24,7 @@ const AdminGame = () => {
         .catch( error => {
             console.log(error)
         })
-    }, []);
+    }, [gameId]);
 
     return (
         <BackgroundContainer>
@@ -35,7 +36,9 @@ const AdminGame = () => {
                     <p style={{textOverflow: "ellipsis", overflow: "hidden", whiteSpace:"normal"}}>{game?.description}</p>
                 </HeroForeground>
             </HeroJumbotron>
-            <AdminCharacterList gameId={gameId} />
+            <AdminCharacterProvider>
+                <AdminCharacterList gameId={gameId} />
+            </AdminCharacterProvider>
             <Footer/>
         </BackgroundContainer> 
     )
