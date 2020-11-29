@@ -5,7 +5,6 @@ import { ICharacter } from '../models/ICharacter';
 export interface IAdminCharacterContext {
     gameCharacters: ICharacter[] | undefined,
     characters: ICharacter[] | undefined,
-    setDidChangeList(state: boolean): void,
     getCharactersFromGame(gameId: string): void,
     deleteCharacterById(characterId: string, gameId: string): void
 }
@@ -50,7 +49,7 @@ export const AdminCharacterProvider = ( props : any ) => {
     }
 
     return (
-    <AdminCharacterContext.Provider value={{gameCharacters, characters, setDidChangeList, getCharactersFromGame, deleteCharacterById}}>
+    <AdminCharacterContext.Provider value={{gameCharacters, characters, getCharactersFromGame, deleteCharacterById}}>
         { props.children }
     </AdminCharacterContext.Provider>
     )

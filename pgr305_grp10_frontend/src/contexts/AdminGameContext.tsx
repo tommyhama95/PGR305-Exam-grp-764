@@ -4,7 +4,6 @@ import { IGame } from '../models/IGame';
 
 export interface IAdminGameContext {
     games: IGame[] | undefined,
-    setDidChangeList(state: boolean): void,
     deleteGameById(gameId: string): void
 }
 
@@ -37,7 +36,7 @@ export const AdminGameProvider = ( props : any ) => {
     }
 
     return (
-    <AdminGameContext.Provider value={{games, setDidChangeList, deleteGameById}}>
+    <AdminGameContext.Provider value={{games, deleteGameById}}>
         { props.children }
     </AdminGameContext.Provider>
     )

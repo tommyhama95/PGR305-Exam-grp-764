@@ -11,20 +11,11 @@ const AdminCharacterList = (props: any) => {
 
     const gameId = props.gameId;
 
-    const {gameCharacters, setDidChangeList, getCharactersFromGame}  = useContext<IAdminCharacterContext>(AdminCharacterContext);
-
-    /*
-    const [characterList, setCharacterList] = useState<ICharacter[] | undefined>(); //Handles the list of characters
-    const [didChangeList, setDidChangeList] = useState<boolean>(false) //Handles automatic updating whenever a character is deleted
-    */
+    const {gameCharacters, getCharactersFromGame}  = useContext<IAdminCharacterContext>(AdminCharacterContext);
 
     useEffect(() => {
         getCharactersFromGame(gameId);
     },[/* Dependency array left empty to avoid infinite request loops */]);
-
-    const initiateListChange = () => {
-        setDidChangeList(true);
-    }
 
     return (
         <Container style={{backgroundColor: "#f5f5f5", paddingTop: "1em"}}>
@@ -45,7 +36,7 @@ const AdminCharacterList = (props: any) => {
             <Row style={{margin: 0}} className="justify-content-md-center">
                 {
                     gameCharacters?.map(character => {
-                        return <AdminCharacterItem character={character} initiateListChange={initiateListChange} key={character.id}/> 
+                        return <AdminCharacterItem character={character} key={character.id}/> 
                     })
                 }
             </Row>

@@ -7,31 +7,7 @@ import AdminGameItem from './AdminGameItem';
 
 const AdminGameList = () => {
 
-    //setDidChangeList handles the list update on game delete
-    const { games, setDidChangeList } = useContext<IAdminGameContext>(AdminGameContext)
-    
-    //const [ games, setGames ] : IGame[] = adminGame.games;
-    //const [ setDidChangeList ] : any = adminGame.listUpdate;
-
-    /*
-    const [gameList, setGameList] = useState<IGame[] | undefined>();
-    const [didChangeList, setDidChangeList] = useState<boolean>(false)
-
-    
-    useEffect(() => {
-        axios.get("https://localhost:5001/admingames")
-        .then( response => {
-            setGameList(response.data)
-            setDidChangeList(false)
-        })
-        .catch( error => {
-            console.log(error)
-        })
-    }, [didChangeList]);*/
-
-    const initiateListChange = () => {
-        setDidChangeList(true);
-    }
+    const { games } = useContext<IAdminGameContext>(AdminGameContext)
 
     return (
         <>
@@ -60,7 +36,7 @@ const AdminGameList = () => {
                     <Row style={{margin: 0}} className="justify-content-md-center">
                         {
                             games.map(game => {
-                                return <AdminGameItem game={game} initiateListChange={initiateListChange} key={game.id}/>
+                                return <AdminGameItem game={game} key={game.id}/>
                             })
                         }
                     </Row>
