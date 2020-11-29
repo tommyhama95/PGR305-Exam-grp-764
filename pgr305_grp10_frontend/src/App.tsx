@@ -1,7 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
-import Switch from 'react-bootstrap/esm/Switch';
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import './App.css';
 
 // Pages
@@ -14,12 +13,13 @@ import EditGame from './pages/EditGame';
 import GameDetail from './pages/GameDetail';
 import AdminGame from './pages/AdminGame';
 import EditCharacter from './pages/EditCharacter';
+import NotFound from './pages/NotFound';
 
 
 function App() {
   return (
     <BrowserRouter> 
-      <Switch style={{padding: 0}}>
+      <Switch>
         <Route exact path="/" component={Landing}/>
         <Route exact path="/home" component={Home}/>
         <Route exact path="/games/:id" component={GameDetail}/>
@@ -29,6 +29,7 @@ function App() {
         <Route exact path="/admin/game/:id" component={AdminGame} />
         <Route exact path="/admin/game/:id/newCharacter" component={NewCharacter} />
         <Route exact path="/admin/game/:gameid/edit/:charid" component={EditCharacter} />
+        <Route component={NotFound} />
       </Switch>
     </BrowserRouter>
   );

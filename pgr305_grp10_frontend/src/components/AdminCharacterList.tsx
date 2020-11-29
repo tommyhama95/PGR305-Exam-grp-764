@@ -46,7 +46,7 @@ const AdminCharacterList = (props: any) => {
                         <InputGroup.Prepend>
                             <InputGroup.Text id="inputGroup-sizing-sm">Search</InputGroup.Text>
                         </InputGroup.Prepend>
-                        <FormControl placeholder="Type in a game title to search: Eg. 'Genshin'" onChange={(e) => { setSearch(e.target.value)}}/>
+                        <FormControl placeholder="Start typing in a character name to search" onChange={(e) => { setSearch(e.target.value)}}/>
                     </InputGroup>
                 </StyledRow>
             }
@@ -81,14 +81,6 @@ const LoaderRow = styled(Row)`
     margin: 0;
     padding: 3em 0;
     height: 100%;
-    align-items: center;
-`
-
-
-const ListHeader = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
     align-items: center;
 `
 

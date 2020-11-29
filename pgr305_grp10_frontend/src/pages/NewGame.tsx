@@ -25,6 +25,7 @@ const NewGame = () => {
 
         switch(property) {
             case "title": gameCopy.title = value; break;
+            case "description": gameCopy.description = value; break;
             case "category": gameCopy.category = value; break;
             case "cover": gameCopy.coverImage = value; break;
             case "price": gameCopy.price = parseInt(value); break;
@@ -107,6 +108,14 @@ const NewGame = () => {
                             placeholder="Enter game title" 
                             value={game.title} 
                             onChange={(e) => handleInput("title", e.target.value)}/>
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Game Description*</Form.Label>
+                        <Form.Control 
+                            type="textarea" 
+                            placeholder="Enter description" 
+                            value={game.description} 
+                            onChange={(e) => handleInput("description", e.target.value)}/>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Categories (At least one)*</Form.Label>
