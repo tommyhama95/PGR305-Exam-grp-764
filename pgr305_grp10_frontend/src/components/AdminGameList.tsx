@@ -1,13 +1,22 @@
-import React, { useContext } from 'react';
-import { Button, Col, Container, Row, Spinner } from 'react-bootstrap';
+import React, { useContext, useState } from 'react';
+import { Alert, Button, Col, Container, FormControl, InputGroup, Row, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { AdminGameContext, IAdminGameContext } from '../contexts/AdminGameContext';
+import { IGame } from '../models/IGame';
 import AdminGameItem from './AdminGameItem';
 
 const AdminGameList = () => {
 
     const { games } = useContext<IAdminGameContext>(AdminGameContext)
+
+    const [search, setSearch] = useState<string>("");
+
+    const matchesSearch = () : IGame[] => {
+        return games!.filter(game => {
+            return game.title.toLowerCase().includes(search.toLowerCase())
+        })
+    }
 
     return (
         <>
@@ -24,6 +33,17 @@ const AdminGameList = () => {
                         </Link>
                     </Col>
                 </StyledRow>
+                {
+                    games &&
+                    <StyledRow className="justify-content-md-between">
+                        <InputGroup size="sm" className="mb-3">
+                            <InputGroup.Prepend>
+                                <InputGroup.Text id="inputGroup-sizing-sm">Search</InputGroup.Text>
+                            </InputGroup.Prepend>
+                            <FormControl placeholder="Type in a game title to search: Eg. 'Genshin'" onChange={(e) => { setSearch(e.target.value)}}/>
+                        </InputGroup>
+                    </StyledRow>
+                }
                 <br />
                 {
                     !games ? 
@@ -35,10 +55,15 @@ const AdminGameList = () => {
                     :
                     <Row style={{margin: 0}} className="justify-content-md-center">
                         {
-                            games.map(game => {
+                            matchesSearch().map(game => {
                                 return <AdminGameItem game={game} key={game.id}/>
                             })
                         }
+                        <br/>
+                        {
+                            matchesSearch().length < 1 &&
+                                <Alert variant="light">No search results found</Alert>
+                        }    
                     </Row>
                 }
             </Container>

@@ -1,4 +1,3 @@
-import axios from 'axios'
 import React, { useContext } from 'react'
 import { Badge, Button, ButtonGroup, ButtonToolbar, Card, Col } from 'react-bootstrap'
 import { useHistory } from 'react-router'
@@ -7,10 +6,6 @@ import styled from 'styled-components'
 import { AdminGameContext, IAdminGameContext } from '../contexts/AdminGameContext'
 import { IGame } from '../models/IGame'
 
-
-// Props passed to this component: 
-// * game : IGame
-// * initiateListChange : Function that initiates re-fetching with useEffect in the parent list
 const AdminGameItem = (props : any) => {
 
     const history = useHistory();

@@ -1,6 +1,5 @@
-import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react'
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import React, { useContext, useEffect, useState } from 'react';
+import { Alert, Button, Col, Container, FormControl, InputGroup, Row, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { AdminCharacterContext, IAdminCharacterContext } from '../contexts/AdminCharacterContext';
@@ -15,7 +14,16 @@ const AdminCharacterList = (props: any) => {
 
     useEffect(() => {
         getCharactersFromGame(gameId);
-    },[/* Dependency array left empty to avoid infinite request loops */]);
+    // We only want this useeffect to run once without any dependencies, so this comment will disable that warning.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const [search, setSearch] = useState<string>("");
+    const matchesSearch = () : ICharacter[] => {
+        return gameCharacters!.filter(character => {
+            return character.name.toLowerCase().includes(search.toLowerCase())
+        })
+    }
 
     return (
         <Container style={{backgroundColor: "#f5f5f5", paddingTop: "1em"}}>
@@ -31,18 +39,51 @@ const AdminCharacterList = (props: any) => {
                     </Link>
                 </Col>
             </StyledRow>
-            <ListHeader>
-            </ListHeader>
-            <Row style={{margin: 0}} className="justify-content-md-center">
-                {
-                    gameCharacters?.map(character => {
-                        return <AdminCharacterItem character={character} key={character.id}/> 
-                    })
-                }
-            </Row>
+            {
+                gameCharacters &&
+                <StyledRow className="justify-content-md-between">
+                    <InputGroup size="sm" className="mb-3">
+                        <InputGroup.Prepend>
+                            <InputGroup.Text id="inputGroup-sizing-sm">Search</InputGroup.Text>
+                        </InputGroup.Prepend>
+                        <FormControl placeholder="Type in a game title to search: Eg. 'Genshin'" onChange={(e) => { setSearch(e.target.value)}}/>
+                    </InputGroup>
+                </StyledRow>
+            }
+            <br/>
+            {
+                !gameCharacters ? 
+                <LoaderRow className="justify-content-md-center">
+                    <Spinner animation="border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </Spinner>
+                </LoaderRow>
+                :
+                <Row style={{margin: 0}} className="justify-content-md-center">
+                    {
+                        // Generate a list of characters from the list specified by the game selected
+                        matchesSearch().map(character => {
+                            return <AdminCharacterItem character={character} key={character.id}/> 
+                        })
+                    }
+                    <br/>
+                    {
+                        matchesSearch().length < 1 &&
+                            <Alert variant="light">No search results found</Alert>
+                    }    
+                </Row>
+            }
         </Container>
     )
 }
+
+const LoaderRow = styled(Row)`
+    margin: 0;
+    padding: 3em 0;
+    height: 100%;
+    align-items: center;
+`
+
 
 const ListHeader = styled.div`
     display: flex;
