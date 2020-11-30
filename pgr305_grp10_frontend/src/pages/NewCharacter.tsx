@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { Button, Container, Form, Jumbotron, Spinner } from 'react-bootstrap';
 import { useHistory, useLocation } from 'react-router';
+import styled from 'styled-components';
 import Header from '../components/Header';
 import { ICharacter } from '../models/ICharacter';
 
@@ -86,10 +87,10 @@ const NewCharacter = () => {
     return (
         <>
             <Header url="/admin/home"/>
-            <Jumbotron>
+            <StyledJumbotron>
                 <h2>New [Gamename] character:</h2>
                 <p>Write in the details of the character below</p>
-            </Jumbotron>
+            </StyledJumbotron>
             <Container>
                 <Form>
                     <Form.Group>
@@ -115,7 +116,7 @@ const NewCharacter = () => {
                             placeholder="No image has been uploaded..." 
                             value={character.image}
                             readOnly />
-                        <Form.File id="characterImageFile" onChange={onFileChange}/>
+                        <StyledFormFile id="characterImageFile" onChange={onFileChange}/>
 
                         <Button onClick={doImageUpload} disabled={!file}>
                             {
@@ -134,5 +135,14 @@ const NewCharacter = () => {
         </>
     )
 }
+
+const StyledJumbotron = styled(Jumbotron)`
+    background-color: #2e5fff;
+`;
+
+const StyledFormFile = styled(Form.File)`
+    margin: 1rem 0rem;
+`;
+
 
 export default NewCharacter

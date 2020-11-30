@@ -135,7 +135,7 @@ const EditCharacter = () => {
                                 placeholder="No image has been uploaded..." 
                                 value={character.image}
                                 readOnly />
-                            <Form.File id="characterImageThumbnailFile" onChange={onFileChange}/>
+                            <StyledFormFile id="characterImageThumbnailFile" onChange={onFileChange}/>
 
                             <Button onClick={doImageUpload} disabled={!file}>
                                 {
@@ -164,5 +164,9 @@ const CenteredDiv = styled.div`
     justify-content: middle;
     align-items: center;
 `
+
+const StyledFormFile = styled(Form.File)`
+    margin: 1rem 0rem;
+`;
 
 export default EditCharacter

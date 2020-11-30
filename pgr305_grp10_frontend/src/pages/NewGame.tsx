@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { Button, Container, Form, InputGroup, Jumbotron, Spinner } from 'react-bootstrap';
 import { useHistory } from 'react-router';
+import styled from 'styled-components';
 import Header from '../components/Header';
 import { IGame } from '../models/IGame';
 
@@ -29,13 +30,7 @@ const NewGame = () => {
             case "category": gameCopy.category = value; break;
             case "cover": gameCopy.coverImage = value; break;
             case "price": gameCopy.price = parseInt(value); break;
-            case "pegi": 
-                if(value === "Everyone") {
-                    gameCopy.pegiRating = 0;
-                    break;
-                }
-                gameCopy.pegiRating = parseInt(value); 
-                break;
+            case "pegi":  gameCopy.pegiRating = parseInt(value); break;
             default: return;
         }
 
@@ -95,10 +90,10 @@ const NewGame = () => {
     return (
         <>
             <Header url="/admin/home"/> 
-            <Jumbotron>
+            <StyledJumbotron>
                 <h2>Make a new game</h2>
                 <p>Input the values of the game in the form below</p>
-            </Jumbotron>
+            </StyledJumbotron>
             <Container>
                 <Form>
                     <Form.Group>
@@ -135,7 +130,7 @@ const NewGame = () => {
                             placeholder="No image has been uploaded..." 
                             value={game.coverImage}
                             readOnly />
-                        <Form.File id="gameImageThumbnailFile" onChange={onFileChange}/>
+                        <StyledFormFile id="gameImageThumbnailFile" onChange={onFileChange}/>
 
                         <Button onClick={doImageUpload} disabled={!file}>
                             {
@@ -147,7 +142,7 @@ const NewGame = () => {
                         </Button>
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Price</Form.Label>
+                        <Form.Label>Price (-1 = NA, 0 = Free)</Form.Label>
                         <InputGroup>
                             <Form.Control
                                 type="number" 
@@ -161,10 +156,9 @@ const NewGame = () => {
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>
-                            PEGI Rating
+                            PEGI Rating (3 is same as Everyone)
                         </Form.Label>
-                        <Form.Control as="select" defaultValue="Everyone">
-                            <option>Everyone</option>
+                        <Form.Control as="select" defaultValue="3" onChange={e => handleInput("pegi", e.target.value)}>
                             <option>3</option>
                             <option>7</option>
                             <option>12</option>
@@ -172,7 +166,7 @@ const NewGame = () => {
                             <option>18</option>
                         </Form.Control>
                     </Form.Group>
-                    <Button variant="primary" onClick={postGame} disabled={!game.title || !game.category || !game.coverImage}>
+                    <Button variant="primary" onClick={postGame} disabled={!game.title || !game.description || !game.category || !game.coverImage}>
                         Create Game
                     </Button>
                 </Form>
@@ -180,5 +174,13 @@ const NewGame = () => {
         </>
     )
 }
+
+const StyledJumbotron = styled(Jumbotron)`
+    background-color: #2e5fff;
+`;
+
+const StyledFormFile = styled(Form.File)`
+    margin: 1rem 0rem;
+`;
 
 export default NewGame

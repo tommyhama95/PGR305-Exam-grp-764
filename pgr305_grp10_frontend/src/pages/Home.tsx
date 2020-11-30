@@ -96,7 +96,8 @@ const StyledP = styled.p`
 
 const StyledContainer = styled(Container)`
     margin: 0;
-    background-color: black;
+    min-height: 100vh;
+    background-color: #121212;
     padding: 0;
     overflow-x: hidden;
     overflow-y: hidden;

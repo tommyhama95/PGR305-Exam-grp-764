@@ -1,10 +1,9 @@
 import React, { useContext, useState } from 'react';
-import { Col, Container, Dropdown, DropdownButton, FormControl, InputGroup, Row } from 'react-bootstrap';
+import { Alert, Col, Container, Dropdown, DropdownButton, FormControl, InputGroup, Row, Spinner } from 'react-bootstrap';
 import styled from 'styled-components';
 import { IUserGameContext, UserGameContext } from '../contexts/UserGameContext';
 import { IGame } from '../models/IGame';
 import GameCardItem from './GameCardItem';
-
 
 export interface IFilterGames {
     filterBy: string | undefined    
@@ -15,11 +14,12 @@ const GameCardList = () => {
     const { games } = useContext<IUserGameContext>(UserGameContext);
     const [filterGamesBy, setFilterGamesBy] = useState<IFilterGames>({} as IFilterGames);
     const [pegiSelected, setPegiSelected] = useState<string | undefined>("All");
-    const [categoryText, setCategoryText] = useState<string>("Seach by name or category");
+    const [categoryText, setCategoryText] = useState<string>("");
 
     let gameList = games;
 
     const handleOnPegiSelect = (valueIn: string | null) => {
+        setCategoryText("");
         if(valueIn !== "All" || valueIn !== null) {
             setFilterGamesBy({filterBy: "pegi", value: valueIn!});
         }
@@ -59,14 +59,13 @@ const GameCardList = () => {
         }
     }
 
-
     return (
         <> 
             <StyledContainer>
                 <p style={{color: "#f5f5f5"}}>Search by input field OR Pegi rating</p>
                 <StyledSearchRow>
                     <StyledInputGroup>
-                        <FormControl placeholder={categoryText} onChange={e => handleOnSearchChange(e.target.value)}/>
+                        <FormControl value={categoryText} placeholder="Seach by name or category" onChange={e => handleOnSearchChange(e.target.value)}/>
                         <InputGroup.Append>
                             <InputGroup.Text>{ gameList ? `Found: ${gameList!.length}` : `Found: 0` }</InputGroup.Text>
                         </InputGroup.Append>
@@ -76,7 +75,7 @@ const GameCardList = () => {
                         title={`Pegi Rating: ${pegiSelected}`}
                         >
                         <Dropdown.Item eventKey="All">All</Dropdown.Item>
-                        <Dropdown.Item eventKey="3">3</Dropdown.Item>
+                        <Dropdown.Item eventKey="3">3 / Everyone</Dropdown.Item>
                         <Dropdown.Item eventKey="7">7</Dropdown.Item>
                         <Dropdown.Item eventKey="12">12</Dropdown.Item>
                         <Dropdown.Item eventKey="16">16</Dropdown.Item>
@@ -84,17 +83,36 @@ const GameCardList = () => {
                     </DropdownButton>                
                 </StyledSearchRow>
             </StyledContainer>
-            <StyledGameListRow>
+            <Container fluid style={{padding: "0"}}>
             {
-                gameList?.map( (game: IGame, i: number) => {
-                    return (
-                        <StyledCol key={i}>
-                            <GameCardItem key={i} {...game}/> 
-                        </StyledCol>
-                        )
-                    })
-                } 
-            </StyledGameListRow>
+                !gameList ?
+                    <LoaderRow className="justify-content-md-center">
+                        <Spinner animation="border" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </Spinner>
+                    </LoaderRow>
+                    :
+                    <>
+                        <StyledGameListRow>
+                            {
+                            gameList?.map( (game: IGame, i: number) => {
+                                return (
+                                    <StyledCol key={i}>
+                                        <GameCardItem key={i} {...game}/> 
+                                    </StyledCol>
+                                    )
+                                })
+                            }
+                        </StyledGameListRow>
+                        {
+                            gameList.length < 1 &&
+                            <Row className="justify-content-md-center">
+                                <Alert variant="light">No games found</Alert>
+                            </Row>
+                        }
+                    </>
+            } 
+            </Container>
         </>
     );
 }
@@ -111,8 +129,12 @@ const StyledSearchRow = styled(Row)`
 `;
 
 const StyledInputGroup = styled(InputGroup)`
-    width: 70%;
+    width: 50%;
     margin-right: 2rem;
+
+    @media (max-width: 1400px) {
+        width: 70%;
+    }
 
     @media (max-width: 500px) {
         width: 100%;
@@ -120,6 +142,12 @@ const StyledInputGroup = styled(InputGroup)`
     }
 `;
 
+const LoaderRow = styled(Row)`
+    margin: 0;
+    padding: 3em 0;
+    height: 100%;
+    align-items: center;
+`
 const StyledGameListRow = styled(Row)`
     margin: 0;
     display: grid;

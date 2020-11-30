@@ -131,6 +131,17 @@ const EditGame = () => {
                                 onChange={(e) => handleInput("title", e.target.value)}/>
                         </Form.Group>
                         <Form.Group>
+                            <Form.Label>Description*</Form.Label>
+                            <InputGroup>
+                            <Form.Control as="textarea"
+                                type="text"
+                                placeholder="Description about the game"
+                                value={game.description}
+                                onChange={(e) => handleInput("description", e.target.value)}
+                            />
+                            </InputGroup>
+                        </Form.Group>
+                        <Form.Group>
                             <Form.Label>Categories (At least one)*</Form.Label>
                             <Form.Control
                                 type="text" 
@@ -148,7 +159,7 @@ const EditGame = () => {
                                 placeholder="No image has been uploaded..." 
                                 value={game.coverImage}
                                 readOnly />
-                            <Form.File id="gameImageThumbnailFile" onChange={onFileChange}/>
+                            <StyledFormFile id="gameImageThumbnailFile" onChange={onFileChange}/>
 
                             <Button onClick={doImageUpload} disabled={!file}>
                                 {
@@ -160,7 +171,7 @@ const EditGame = () => {
                             </Button>
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>Price</Form.Label>
+                            <Form.Label>Price (-1 = NA, 0 = Free)</Form.Label>
                             <InputGroup>
                                 <Form.Control
                                     type="number" 
@@ -174,10 +185,9 @@ const EditGame = () => {
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>
-                                PEGI Rating
+                                PEGI Rating (3 is same as Everyone)
                             </Form.Label>
-                            <Form.Control as="select" defaultValue="Everyone">
-                                <option>Everyone</option>
+                            <Form.Control as="select" defaultValue={game.pegiRating} onChange={e => handleInput("pegi", e.target.value)}>
                                 <option>3</option>
                                 <option>7</option>
                                 <option>12</option>
@@ -185,18 +195,7 @@ const EditGame = () => {
                                 <option>18</option>
                             </Form.Control>
                         </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Description</Form.Label>
-                            <InputGroup>
-                            <Form.Control as="textarea"
-                                type="text"
-                                placeholder="Description about the game"
-                                value={game.description}
-                                onChange={(e) => handleInput("description", e.target.value)}
-                            />
-                            </InputGroup>
-                        </Form.Group>
-                        <Button variant="primary" onClick={putGame} disabled={!game.title || !game.category || !game.coverImage}>
+                        <Button variant="primary" onClick={putGame} disabled={!game.title || !game.description || !game.category || !game.coverImage}>
                             Update Game
                         </Button>
                     </Form>
@@ -205,6 +204,10 @@ const EditGame = () => {
         </>
     )
 }
+
+const StyledFormFile = styled(Form.File)`
+    margin: 1rem 0rem;
+`;
 
 const CenteredDiv = styled.div`
     width: 100%;
