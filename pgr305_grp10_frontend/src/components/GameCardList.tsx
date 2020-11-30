@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Col, Container, Dropdown, DropdownButton, Row } from 'react-bootstrap';
+import React, { useContext, useState } from 'react';
+import { Col, Container, Dropdown, DropdownButton, FormControl, InputGroup, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import { IUserGameContext, UserGameContext } from '../contexts/UserGameContext';
 import { IGame } from '../models/IGame';
@@ -15,44 +15,63 @@ const GameCardList = () => {
     const { games } = useContext<IUserGameContext>(UserGameContext);
     const [filterGamesBy, setFilterGamesBy] = useState<IFilterGames>({} as IFilterGames);
     const [pegiSelected, setPegiSelected] = useState<string | undefined>("All");
+    const [categoryText, setCategoryText] = useState<string>("Seach by name or category");
 
     let gameList = games;
-    const {filterBy, value} = filterGamesBy;
-
-    useEffect(() => {
-        filterGames(filterGamesBy);
-    }, [filterGamesBy]);
 
     const handleOnPegiSelect = (valueIn: string | null) => {
-        setFilterGamesBy({filterBy: "pegi", value: valueIn!});
+        if(valueIn !== "All" || valueIn !== null) {
+            setFilterGamesBy({filterBy: "pegi", value: valueIn!});
+        }
         setPegiSelected(valueIn!);
+    }
+    
+    const handleOnSearchChange = (input: string) => {
+        setPegiSelected("All");
+        setFilterGamesBy({filterBy: "input", value: input});
+        setCategoryText(input);
     }
 
     const filterGames = ({filterBy, value}: IFilterGames) => { 
         if(filterBy === "pegi") {
             gameList = games?.filter( (game: IGame) => game.pegiRating === parseInt(value));
-        }
-        if(filterBy === "category") {
-            gameList = games?.filter( (game: IGame) => game.category === value);
+        } else {
+            gameList = games?.filter( (game: IGame) => (
+                game.title.toLowerCase().includes(value.toLowerCase()) 
+                || 
+                game.category.toLowerCase().includes(value.toLowerCase())
+            ) )
         }
     }
 
-    if(filterBy === "pegi") {
-        const filterData: IFilterGames = {filterBy: "pegi", value: value}
-        switch(value) {
-            case "3": filterGames(filterData); break;
-            case "7": filterGames(filterData); break;
-            case "12": filterGames(filterData); break;
-            case "16": filterGames(filterData); break;
-            case "18": filterGames(filterData); break;
+    if(filterGamesBy.filterBy === "pegi") {
+        switch(filterGamesBy.value) {
+            case "3": filterGames(filterGamesBy); break;
+            case "7": filterGames(filterGamesBy); break;
+            case "12": filterGames(filterGamesBy); break;
+            case "16": filterGames(filterGamesBy); break;
+            case "18": filterGames(filterGamesBy); break;
             default: gameList = games;
         }
+    }  else {
+        if(filterGamesBy.value !== undefined) {
+            filterGames(filterGamesBy);
+        }
     }
+
 
     return (
         <> 
-            <Container>
-                <DropdownButton 
+            <StyledContainer>
+                <p style={{color: "#f5f5f5"}}>Search by input field OR Pegi rating</p>
+                <StyledSearchRow>
+                    <StyledInputGroup>
+                        <FormControl placeholder={categoryText} onChange={e => handleOnSearchChange(e.target.value)}/>
+                        <InputGroup.Append>
+                            <InputGroup.Text>{ gameList ? `Found: ${gameList!.length}` : `Found: 0` }</InputGroup.Text>
+                        </InputGroup.Append>
+                    </StyledInputGroup>
+                    <DropdownButton 
                         onSelect={e => handleOnPegiSelect(e)}
                         title={`Pegi Rating: ${pegiSelected}`}
                         >
@@ -62,9 +81,10 @@ const GameCardList = () => {
                         <Dropdown.Item eventKey="12">12</Dropdown.Item>
                         <Dropdown.Item eventKey="16">16</Dropdown.Item>
                         <Dropdown.Item eventKey="18">18</Dropdown.Item>
-                    </DropdownButton>
-            </Container>
-            <StyledRow>
+                    </DropdownButton>                
+                </StyledSearchRow>
+            </StyledContainer>
+            <StyledGameListRow>
             {
                 gameList?.map( (game: IGame, i: number) => {
                     return (
@@ -74,12 +94,33 @@ const GameCardList = () => {
                         )
                     })
                 } 
-            </StyledRow>
+            </StyledGameListRow>
         </>
     );
 }
 
-const StyledRow = styled(Row)`
+const StyledContainer = styled(Container)`
+    margin: 1.5rem auto;
+    @media (max-width: 800px) {
+        margin: 1.5rem 1rem;
+    }
+`;
+
+const StyledSearchRow = styled(Row)`
+    min-width: 100vw;
+`;
+
+const StyledInputGroup = styled(InputGroup)`
+    width: 70%;
+    margin-right: 2rem;
+
+    @media (max-width: 500px) {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+`;
+
+const StyledGameListRow = styled(Row)`
     margin: 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(700px, 1fr));
