@@ -7,6 +7,7 @@ export interface IAdminCharacterContext {
     characters: ICharacter[] | undefined,
     getCharactersFromGame(gameId: string): void,
     deleteCharacterById(characterId: string, gameId: string): void
+    error: Error | undefined,
 }
 
 export const AdminCharacterContext = createContext<IAdminCharacterContext>({} as IAdminCharacterContext);
@@ -16,13 +17,17 @@ export const AdminCharacterProvider = ( props : any ) => {
     const [characters, setCharacters] = useState<ICharacter[] | undefined>()
     const [didChangeList, setDidChangeList] = useState<boolean>(false)
 
+    const [error, setError] = useState<Error | undefined>(undefined)
+
     useEffect(() => {
         axios.get("https://localhost:5001/admincharacters")
         .then( response => {
             setCharacters(response.data)
+            setError(undefined) // Make sure to remove any potential leftover errors if data is received
         })
         .catch( error => {
             console.log(error)
+            setError(error) // Use this to display error messages should the network be unavailable.
         })
     },[didChangeList]);
 
@@ -49,7 +54,7 @@ export const AdminCharacterProvider = ( props : any ) => {
     }
 
     return (
-    <AdminCharacterContext.Provider value={{gameCharacters, characters, getCharactersFromGame, deleteCharacterById}}>
+    <AdminCharacterContext.Provider value={{gameCharacters, characters, getCharactersFromGame, deleteCharacterById, error}}>
         { props.children }
     </AdminCharacterContext.Provider>
     )

@@ -10,7 +10,7 @@ const AdminCharacterList = (props: any) => {
 
     const gameId = props.gameId;
 
-    const {gameCharacters, getCharactersFromGame}  = useContext<IAdminCharacterContext>(AdminCharacterContext);
+    const {gameCharacters, getCharactersFromGame, error}  = useContext<IAdminCharacterContext>(AdminCharacterContext);
 
     useEffect(() => {
         getCharactersFromGame(gameId);
@@ -71,6 +71,15 @@ const AdminCharacterList = (props: any) => {
                         matchesSearch().length < 1 &&
                             <Alert variant="light">No search results found</Alert>
                     }    
+                </Row>
+            }
+            {
+                error && 
+                <Row className="justify-content-md-center">
+                    <Alert variant="danger">
+                        <Alert.Heading>{error.message}</Alert.Heading>
+                        <p>Please make sure you are connected to the network, and that the backend is available.</p>
+                    </Alert>
                 </Row>
             }
         </Container>

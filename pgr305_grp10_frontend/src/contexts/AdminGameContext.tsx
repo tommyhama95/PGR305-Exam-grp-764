@@ -20,12 +20,12 @@ export const AdminGameProvider = ( props : any ) => {
         axios.get("https://localhost:5001/admingames")
         .then( response => {
             setGames(response.data)
-            setError(undefined)
+            setError(undefined) // Make sure to remove any potential leftover errors if data is received
             setDidChangeList(false)
         })
         .catch( error => {
-            console.error(`An error occurred ${error}`)
-            setError(error)
+            console.error(error)
+            setError(error) // Use this to display error messages should the network be unavailable.
         })
     }, [didChangeList]);
 
