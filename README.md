@@ -50,6 +50,10 @@ Our backend is built with .NET C# Webapi, and ties together with a backend datab
 Our database has a single database (Ps5Games) with two document collections: Characters and Games.
 Due to MongoDB not acting as a traditional relational database, we tie these two collections together through the GameId property on the Characters collection.
 
+To properly see a game sample with many characters, please see the game details for the game **Genshin Impact**.
+
+All images taken for the project are taken from various google image searches or game sites, and due to the closed nature of the project, are not meant to infringe on any copyrights or similar protections.
+
 ### Games objects have the following properties:
 - _id: ObjectId()
 - Title: String

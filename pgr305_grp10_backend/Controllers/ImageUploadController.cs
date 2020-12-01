@@ -17,7 +17,7 @@ namespace pgr305_grp10_backend.Controllers {
 
         [HttpGet]
         public string Get() {
-            return "This isn't how you upload images you dum dum..";
+            return "This isn't how you upload images.";
         }
 
         [HttpPost]

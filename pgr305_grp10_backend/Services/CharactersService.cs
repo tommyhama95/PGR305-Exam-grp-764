@@ -36,6 +36,12 @@ namespace pgr305_grp10_backend.Services {
             _characters.DeleteOne( character => character.Id == id );
         }
 
+        public void ClearAll(string gameId) {
+            
+            // Called when a game is deleted. Clears all characters where the game ID matches the deleted game
+            _characters.DeleteMany(character => character.GameId == gameId);
+        }
+
         public void Update( Character characterIn ) {
             _characters.ReplaceOne( character => character.Id == characterIn.Id , characterIn );
         }

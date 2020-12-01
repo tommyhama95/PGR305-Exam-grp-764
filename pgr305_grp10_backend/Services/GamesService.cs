@@ -8,11 +8,16 @@ namespace pgr305_grp10_backend.Services {
         
         private readonly IMongoCollection<Game> _games;
 
+        private readonly CharactersService _charactersService;
+
         public GamesService(IPs5GamesDatabaseSettings settings) {
             var client = new MongoClient( settings.ConnectionString );
             var database = client.GetDatabase( settings.DatabaseName );
 
             _games = database.GetCollection<Game>( settings.GamesCollectionName );
+
+            // CharactersService needs an instance here in order to delete characters related to a deleted game
+            _charactersService = new CharactersService(settings);
         }
 
         public List<Game> Get() {
@@ -29,6 +34,7 @@ namespace pgr305_grp10_backend.Services {
         }
 
         public void Remove(string id) {
+            _charactersService.ClearAll(id);
             _games.DeleteOne( game => game.Id == id );
         }
         
