@@ -8,18 +8,18 @@ import { UserGameProvider } from "../contexts/UserGameContext";
 const Home = () => {
     return (
         <StyledContainer fluid>
-            <StyledButton variant="dark" onClick={() => window.scrollTo(0,0)}>Top</StyledButton>
+            <ScrollButton variant="dark" onClick={() => window.scrollTo(0,0)}>Top</ScrollButton>
             <Header url="/home"/>
             <StyledJumbotron>
                 <StyledCard>
-                    <StyledCardImg  src={"https://localhost:5001/images/Ps5Console.png"}/>
-                    <StyledCardImg2  src={"https://localhost:5001/images/Ps5Console.png"}/>
+                    <ImgSmallPS5  src={"https://localhost:5001/images/Ps5Console.png"}/>
+                    <ImgBigPS5  src={"https://localhost:5001/images/Ps5Console.png"}/>
                     <Card.ImgOverlay>
-                    <StyledH1>Playstation 5 Games</StyledH1>
-                    <StyledP>
-                        Below you will find the upcoming games for our new Playstation 5 console. Look around for <b>your</b> upcoming
-                        game of the year and read more about it.
-                    </StyledP>
+                        <StyledH1>Playstation 5 Games</StyledH1>
+                        <StyledP>
+                            Below you will find the upcoming games for our new Playstation 5 console. Look around for <b>your</b> upcoming
+                            game of the year and read more about it.
+                        </StyledP>
                     </Card.ImgOverlay>
                 </StyledCard>
             </StyledJumbotron>
@@ -31,7 +31,16 @@ const Home = () => {
     );
 }
 
-const StyledButton = styled(Button)`
+const StyledContainer = styled(Container)`
+    margin: 0;
+    min-height: 100vh;
+    background-color: #121212;
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+`;
+
+const ScrollButton = styled(Button)`
     position: fixed;
     bottom: 8vh;
     right: 0;
@@ -56,7 +65,7 @@ const StyledCard = styled(Card)`
     max-width: 100%;
 `;
 
-const StyledCardImg = styled(Card.Img)`
+const ImgSmallPS5 = styled(Card.Img)`
     width: calc(50vh + 1rem);
     position: sticky;
     left: 100%;
@@ -67,7 +76,7 @@ const StyledCardImg = styled(Card.Img)`
     }
 `;
 
-const StyledCardImg2 = styled(Card.Img)`
+const ImgBigPS5 = styled(Card.Img)`
     position: absolute;
     right: 15%;
     opacity: 0.3;
@@ -85,23 +94,16 @@ const StyledP = styled.p`
     font-size: calc(1.4vw + 1em);
     max-width: 40vw;
 
-    @media (max-width: 1400px) {
-        max-width: 50vw;
-    }
-    
     @media (max-width: 500px) {
         font-size: calc(0.7vw + 1em);
     }   
+    
+    @media (max-width: 1400px) {
+        max-width: 50vw;
+    }
 `;
 
-const StyledContainer = styled(Container)`
-    margin: 0;
-    min-height: 100vh;
-    background-color: #121212;
-    padding: 0;
-    overflow-x: hidden;
-    overflow-y: hidden;
-`;
+
 
 
 export default Home;

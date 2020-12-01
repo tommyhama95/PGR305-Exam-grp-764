@@ -1,42 +1,30 @@
 import axios from "axios";
 import React, { useEffect, useState } from 'react';
-import { Card, Carousel, Col, Container, Jumbotron, Row, Image, Badge } from 'react-bootstrap';
+import { Badge, Card, Col, Container, Jumbotron, Row } from 'react-bootstrap';
 import { useLocation } from 'react-router';
 import styled from 'styled-components';
+import CharacterCarousel from "../components/CharacterCarousel";
 import Header from '../components/Header';
-import { ICharacter } from '../models/ICharacter';
+import { UserCharacterProvider } from "../contexts/UserCharacterContext";
 import { IGame } from '../models/IGame';
-
-interface ISlideInfo {
-    name: string
-    desc: string
-}
 
 const GameDetail = () => {
     const location = useLocation();
-
     const [gameId] = useState<string>(location.pathname.substring(location.pathname.lastIndexOf('/') + 1));
     const [game, setGame] = useState<IGame>();
-    const [characters, setCharacters] = useState<ICharacter[] | undefined>();
-    const [slideIndex, setSlideIndex] = useState<ISlideInfo>();
 
+    /*
+        When user enters the game detail page their scrollview got set at character placement. Temp fix by setting scrollTo 
+        at mount of the component.
+     */
     useEffect(() => {
         window.scrollTo(0, 0);
         axios.get(`https://localhost:5001/games/${gameId}`)
             .then( response => { setGame(response.data)} )
             .catch( error => { console.log(error)} );
-
-        axios.get(`https://localhost:5001/characters/forgame/${gameId}`)
-            .then( respone => { setCharacters(respone.data)} )
-            .catch( error => { console.log(error)} )
     }, [gameId]);
 
-
-    const handleOnSlid = (i: number) => {
-        const slideInfo: ISlideInfo = {name: characters![i].name, desc: characters![i].description}
-        setSlideIndex(slideInfo)
-    }
-
+    
     return (
         <StyledContainer fluid>
             <Header url="/home"/>
@@ -62,29 +50,9 @@ const GameDetail = () => {
                         </Col>
                     </Row>
                 </StyledCard>
-                {
-                (characters && characters.length > 0) && 
-                    <>
-                        <StyledH2>{characters.length > 1 ? "Characters": "Character"}</StyledH2>
-                        <StyledCarousel onSlid={(i: number) => handleOnSlid(i)}>
-                            {
-                                characters?.map((character: ICharacter, i: number) => 
-                                    <StyledCarouselItem key={i}>
-                                        <StyledImage 
-                                            className="d-block"
-                                            src={`https://localhost:5001/images/${character.image}`} 
-                                            alt={character.name}
-                                            />
-                                        <Carousel.Caption style={{paddingBottom: "0"}}>
-                                            <StyledH3>{character.name}</StyledH3>
-                                        </Carousel.Caption>
-                                    </StyledCarouselItem>    
-                                )
-                            }
-                        </StyledCarousel>
-                        <StyledP>{slideIndex ? slideIndex?.desc : characters[0].description}</StyledP>
-                    </>
-                }
+                <UserCharacterProvider>
+                    <CharacterCarousel gameId={gameId}/>
+                </UserCharacterProvider>
             </StyledJumbotron>
         </StyledContainer>
     );
@@ -132,40 +100,6 @@ const StyledCardText = styled(Card.Text)`
     @media (max-width: 500px) {
         font-size: 1.3rem;
     }
-`;
-
-const StyledCarousel = styled(Carousel)`
-    height: 100%;
-`;
-
-const StyledCarouselItem = styled(Carousel.Item)`
-    width: 100vw;
-`;
-
-const StyledImage = styled(Image)`
-    margin: auto;
-    height: 40vw;
-
-    @media (max-width: 955px) {
-        height: 55vw;
-    }
-`;
-
-const StyledH3 = styled.h3`
-    text-shadow: 2px 2px #222;
-    font-size: calc(2rem - 10%);
-    padding-bottom: 1rem;
-`;
-
-const StyledP = styled.p`
-    color: #f5f5f5;
-    text-shadow: 2px 2px #222;
-    font-size: calc(1vw + 0.7rem);
-    min-height: 20vh;
-    padding: 1.25rem 8vw;
-    @media (max-width: 700px) {
-        font-size: calc(1vw + 0.6rem);
-    } 
 `;
 
 export default GameDetail;

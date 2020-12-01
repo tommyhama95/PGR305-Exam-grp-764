@@ -146,7 +146,7 @@ const EditCharacter = () => {
                                 }
                             </Button>
                         </Form.Group>
-                        <Button variant="primary" onClick={putCharacter} disabled={!character.name || !character.description || !character.image}>
+                        <Button style={{marginBottom: "1em"}} variant="primary" onClick={putCharacter} disabled={!character.name || !character.description || !character.image}>
                             Update Character
                         </Button>
                     </Form>

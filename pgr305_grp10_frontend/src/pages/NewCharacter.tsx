@@ -88,7 +88,7 @@ const NewCharacter = () => {
         <>
             <Header url="/admin/home"/>
             <StyledJumbotron>
-                <h2>New [Gamename] character:</h2>
+                <h2>New character:</h2>
                 <p>Write in the details of the character below</p>
             </StyledJumbotron>
             <Container>
@@ -127,7 +127,7 @@ const NewCharacter = () => {
                             }
                         </Button>
                     </Form.Group>
-                    <Button variant="primary" onClick={postCharacter} disabled={!character.name || !character.description || !character.image}>
+                    <Button style={{marginBottom: "1em"}} variant="primary" onClick={postCharacter} disabled={!character.name || !character.description || !character.image}>
                         Create Character
                     </Button>
                 </Form>
@@ -138,6 +138,7 @@ const NewCharacter = () => {
 
 const StyledJumbotron = styled(Jumbotron)`
     background-color: #2e5fff;
+    color: #f2f2f2;
 `;
 
 const StyledFormFile = styled(Form.File)`

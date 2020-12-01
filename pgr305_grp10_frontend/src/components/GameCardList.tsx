@@ -16,8 +16,9 @@ const GameCardList = () => {
     const [pegiSelected, setPegiSelected] = useState<string | undefined>("All");
     const [categoryText, setCategoryText] = useState<string>("");
 
-    let gameList = games;
+    let gameList = games; // Holds current filtered game list if filtered
 
+    // Reset search bar and list out game list by selected pegi rating
     const handleOnPegiSelect = (valueIn: string | null) => {
         setCategoryText("");
         if(valueIn !== "All" || valueIn !== null) {
@@ -26,42 +27,35 @@ const GameCardList = () => {
         setPegiSelected(valueIn!);
     }
     
+    // Reset pegi selected and search after each change in searchbar
     const handleOnSearchChange = (input: string) => {
         setPegiSelected("All");
         setFilterGamesBy({filterBy: "input", value: input});
         setCategoryText(input);
     }
 
+    // returns game list base on filter state
     const filterGames = ({filterBy, value}: IFilterGames) => { 
         if(filterBy === "pegi") {
-            gameList = games?.filter( (game: IGame) => game.pegiRating === parseInt(value));
+            if( parseInt(value) ) { // if value selected is not "All"
+                gameList = games?.filter( (game: IGame) => game.pegiRating === parseInt(value));
+            }
         } else {
             gameList = games?.filter( (game: IGame) => (
-                game.title.toLowerCase().includes(value.toLowerCase()) 
+                game.title.toLowerCase().includes(value.toLowerCase()) // filter for title checking
                 || 
-                game.category.toLowerCase().includes(value.toLowerCase())
+                game.category.toLowerCase().includes(value.toLowerCase()) // filter for category checking
             ) )
         }
     }
 
-    if(filterGamesBy.filterBy === "pegi") {
-        switch(filterGamesBy.value) {
-            case "3": filterGames(filterGamesBy); break;
-            case "7": filterGames(filterGamesBy); break;
-            case "12": filterGames(filterGamesBy); break;
-            case "16": filterGames(filterGamesBy); break;
-            case "18": filterGames(filterGamesBy); break;
-            default: gameList = games;
-        }
-    }  else {
-        if(filterGamesBy.value !== undefined) {
-            filterGames(filterGamesBy);
-        }
+    if(filterGamesBy.value !== undefined) { // Only filter if any value has been chosen
+        filterGames(filterGamesBy);
     }
 
     return (
         <> 
-            <StyledContainer>
+            <StyledSearchContainer>
                 <p style={{color: "#f5f5f5"}}>Search by input field OR Pegi rating</p>
                 <StyledSearchRow>
                     <StyledInputGroup>
@@ -82,7 +76,7 @@ const GameCardList = () => {
                         <Dropdown.Item eventKey="18">18</Dropdown.Item>
                     </DropdownButton>                
                 </StyledSearchRow>
-            </StyledContainer>
+            </StyledSearchContainer>
             <Container fluid style={{padding: "0"}}>
             {
                 !gameList ?
@@ -117,7 +111,7 @@ const GameCardList = () => {
     );
 }
 
-const StyledContainer = styled(Container)`
+const StyledSearchContainer = styled(Container)`
     margin: 1.5rem auto;
     @media (max-width: 800px) {
         margin: 1.5rem 1rem;
@@ -132,13 +126,13 @@ const StyledInputGroup = styled(InputGroup)`
     width: 50%;
     margin-right: 2rem;
 
-    @media (max-width: 1400px) {
-        width: 70%;
-    }
-
     @media (max-width: 500px) {
         width: 100%;
         margin-bottom: 1rem;
+    }
+
+    @media (max-width: 1400px) {
+        width: 70%;
     }
 `;
 

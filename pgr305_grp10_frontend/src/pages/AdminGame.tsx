@@ -4,7 +4,6 @@ import { Jumbotron } from 'react-bootstrap';
 import { useLocation } from 'react-router';
 import styled from 'styled-components';
 import AdminCharacterList from '../components/AdminCharacterList';
-import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { AdminCharacterProvider } from '../contexts/AdminCharacterContext';
 import { IGame } from '../models/IGame';
@@ -39,7 +38,6 @@ const AdminGame = () => {
             <AdminCharacterProvider>
                 <AdminCharacterList gameId={gameId} />
             </AdminCharacterProvider>
-            <Footer/>
         </BackgroundContainer> 
     )
 }

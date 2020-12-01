@@ -166,7 +166,7 @@ const NewGame = () => {
                             <option>18</option>
                         </Form.Control>
                     </Form.Group>
-                    <Button variant="primary" onClick={postGame} disabled={!game.title || !game.description || !game.category || !game.coverImage}>
+                    <Button style={{marginBottom: "1em"}} variant="primary" onClick={postGame} disabled={!game.title || !game.description || !game.category || !game.coverImage}>
                         Create Game
                     </Button>
                 </Form>
@@ -177,6 +177,7 @@ const NewGame = () => {
 
 const StyledJumbotron = styled(Jumbotron)`
     background-color: #2e5fff;
+    color: #f2f2f2;
 `;
 
 const StyledFormFile = styled(Form.File)`

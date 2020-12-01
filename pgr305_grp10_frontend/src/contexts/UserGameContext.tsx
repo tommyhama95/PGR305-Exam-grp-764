@@ -14,14 +14,10 @@ export const UserGameProvider = ( props: any ) => {
     useEffect(() => {
         axios.get("https://localhost:5001/games")
             .then( response => {
-                console.log(response.data)
                 setGames(response.data);
             })
             .catch( error => console.log(error))
     }, [])
-
-
-
 
     return (
         
