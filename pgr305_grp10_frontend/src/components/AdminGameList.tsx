@@ -8,7 +8,7 @@ import AdminGameItem from './AdminGameItem';
 
 const AdminGameList = () => {
 
-    const { games } = useContext<IAdminGameContext>(AdminGameContext)
+    const { games, error } = useContext<IAdminGameContext>(AdminGameContext)
 
     const [search, setSearch] = useState<string>("");
 
@@ -64,6 +64,15 @@ const AdminGameList = () => {
                             matchesSearch().length < 1 &&
                                 <Alert variant="light">No search results found</Alert>
                         }    
+                    </Row>
+                }
+                {
+                    error && 
+                    <Row className="justify-content-md-center">
+                        <Alert variant="danger">
+                            <Alert.Heading>{error.message}</Alert.Heading>
+                            <p>Please make sure you are connected to the network, and that the backend is available.</p>
+                        </Alert>
                     </Row>
                 }
             </Container>

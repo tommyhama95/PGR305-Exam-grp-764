@@ -4,7 +4,8 @@ import { IGame } from '../models/IGame';
 
 export interface IAdminGameContext {
     games: IGame[] | undefined,
-    deleteGameById(gameId: string): void
+    deleteGameById(gameId: string): void,
+    error: Error | undefined
 }
 
 export const AdminGameContext = createContext<IAdminGameContext>({} as IAdminGameContext);
@@ -13,14 +14,18 @@ export const AdminGameProvider = ( props : any ) => {
     const [games, setGames] = useState<IGame[] | undefined>()
     const [didChangeList, setDidChangeList] = useState<boolean>(false)
 
+    const [error, setError] = useState<Error | undefined>(undefined)
+
     useEffect(() => {
         axios.get("https://localhost:5001/admingames")
         .then( response => {
             setGames(response.data)
+            setError(undefined)
             setDidChangeList(false)
         })
         .catch( error => {
-            console.log(error)
+            console.error(`An error occurred ${error}`)
+            setError(error)
         })
     }, [didChangeList]);
 
@@ -36,7 +41,7 @@ export const AdminGameProvider = ( props : any ) => {
     }
 
     return (
-    <AdminGameContext.Provider value={{games, deleteGameById}}>
+    <AdminGameContext.Provider value={{games, deleteGameById, error}}>
         { props.children }
     </AdminGameContext.Provider>
     )
