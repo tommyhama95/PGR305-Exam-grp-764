@@ -1,4 +1,4 @@
-# PGR305-Exam:
+# PGR305-Exam: Webdevelopment 3 / Webutvikling 3
 
 ### Group Members:
 * Exam Candidate: 10055
